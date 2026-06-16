@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شركة وهج الماسة — لوحة التقارير المالية</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f4f1;--surface:#ffffff;--surface2:#f0ede8;--border:#e0dbd3;
+  --text:#18170f;--text2:#6b6558;--text3:#a09890;
+  --gold:#c9960c;--gold-l:#fdf3d8;--gold-d:#8b6508;
+  --green:#0d7a52;--green-l:#e6f5ef;
+  --red:#c0392b;--red-l:#fdecea;
+  --blue:#1a5fa8;--blue-l:#e8f0fb;
+  --r:10px;--rl:16px;--sh:0 1px 6px rgba(0,0,0,0.07);
+}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:66px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
+.brand{display:flex;align-items:center;gap:12px}
+.diamond{width:38px;height:38px;background:linear-gradient(135deg,#b8860b 0%,#ffd700 50%,#b8860b 100%);clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);flex-shrink:0}
+.brand-text h1{font-size:17px;font-weight:800;line-height:1.2}
+.brand-text p{font-size:11px;color:var(--text2)}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.badge{background:var(--blue-l);color:var(--blue);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px}
+.btn{border:none;border-radius:var(--r);padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Tajawal',sans-serif;display:flex;align-items:center;gap:5px;transition:.15s}
+.btn-outline{background:none;border:1px solid var(--border);color:var(--text2)}.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:var(--gold-d)}
+
+/* ── TABS ── */
+.tabs{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;overflow-x:auto}
+.tab{padding:13px 18px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text2);border-bottom:2px solid transparent;font-family:'Tajawal',sans-serif;white-space:nowrap;transition:.15s}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab:hover:not(.active){color:var(--text)}
+
+/* ── PAGES ── */
+.page{display:none;padding:1.75rem 2rem;max-width:1240px;margin:0 auto}
+.page.on{display:block}
+
+/* ── KPI GRID ── */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px;margin-bottom:1.5rem}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1rem 1.15rem;box-shadow:var(--sh)}
+.kpi-lbl{font-size:11px;color:var(--text2);font-weight:500;margin-bottom:5px;letter-spacing:.3px}
+.kpi-val{font-size:20px;font-weight:700;line-height:1.2}
+.kpi-sub{font-size:10px;color:var(--text3);margin-top:3px}
+.g{color:var(--green)}.r{color:var(--red)}.go{color:var(--gold)}.b{color:var(--blue)}
+
+/* ── CARD ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1.2rem 1.35rem;margin-bottom:1rem;box-shadow:var(--sh)}
+.card-ttl{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.card-ttl::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px;display:block;flex-shrink:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem}
+
+/* ── CHART ── */
+.ch{position:relative;width:100%}
+
+/* ── LEGEND ── */
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.li{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2)}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+/* ── PROGRESS ── */
+.prog{margin-bottom:14px}
+.prog-hd{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
+.prog-lbl{color:var(--text2)}
+.prog-bar{background:var(--border);border-radius:4px;height:7px;overflow:hidden}
+.prog-fill{height:100%;border-radius:4px}
+
+/* ── TABLE ── */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:11px;font-weight:600;color:var(--text2);text-align:right;padding:8px 10px;border-bottom:2px solid var(--border);background:var(--surface2);white-space:nowrap}
+th:last-child,td:last-child{text-align:left}
+td{padding:7px 10px;border-bottom:1px solid var(--border);color:var(--text);text-align:right;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+.ts td{font-weight:700;background:var(--surface2);font-size:11px;padding-top:11px;padding-bottom:3px;border-top:1px solid var(--border);color:var(--text2)}
+.tt td{font-weight:700;background:var(--gold-l);color:var(--gold-d);border-top:2px solid var(--gold)}
+.t1 td:first-child{padding-right:22px;color:var(--text2)}
+.t2 td:first-child{padding-right:38px;color:var(--text3)}
+.pos{color:var(--green)!important;font-weight:600}
+.neg{color:var(--red)!important;font-weight:600}
+
+/* ── PRINT ── */
+@media print{
+  .topbar .topbar-actions,.tabs{display:none!important}
+  .page{display:block!important;padding:0}
+  body{background:#fff}
+  .card{box-shadow:none;border:1px solid #ddd}
+  .page-break{page-break-before:always}
+}
+@media(max-width:768px){
+  .g2,.g3{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .topbar,.page{padding-right:1rem;padding-left:1rem}
+  .tabs{padding:0 1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="diamond"></div>
+    <div class="brand-text">
+      <h1>شركة وهج الماسة</h1>
+      <p>لوحة التقارير المالية التفاعلية</p>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <span class="badge" id="mainPeriod">—</span>
+    <button class="btn btn-outline" onclick="window.print()">🖨 طباعة</button>
+    <button class="btn btn-gold" onclick="exportPDF()">⬇ تصدير PDF</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="go('s',this)">الملخص التنفيذي</button>
+  <button class="tab" onclick="go('p',this)">الربح والخسارة</button>
+  <button class="tab" onclick="go('b',this)">الميزانية العمومية</button>
+  <button class="tab" onclick="go('t',this)">ميزان المراجعة</button>
+</div>
+
+<div class="page on" id="pg-s"></div>
+<div class="page" id="pg-p"></div>
+<div class="page" id="pg-b"></div>
+<div class="page" id="pg-t"></div>
+
+<script>
+// ═══════════════════════ DATA ═══════════════════════
+const D = {
+  summary_period: "يونيو 2026",
+  pnl_period: "مايو 2026",
+  balance_period: "اعتبارًا من 31 مايو 2026",
+  trial_period: "مايو 2026",
+
+  summary: {
+    "الأرباح النقدية": 1837564000,
+    "المبلغ المُنفَق": -1315146238,
+    "الفائض النقدي": 522417762,
+    "رصيد الإقفال البنكي": 5502862710.16,
+    "الدخل": 330899386.059,
+    "تكاليف الإيرادات": 202522921.664,
+    "إجمالي الربح": 128376464.395,
+    "النفقات": 1949257.459,
+    "صافي الربح": 126427206.936,
+    "المدينين": 18934111645.68,
+    "الدائنون": -2417375867.09,
+    "صافي الأصول": 54318609351.2,
+    "هامش الربح الإجمالي": 38.796,
+    "صافي هامش الربح": 38.207,
+    "العائد على الاستثمار": 0.2122,
+    "متوسط أيام المدينين": 1659.38,
+    "متوسط أيام الدائنين": 342.85,
+    "توقعات النقد قصيرة الأجل": 16516735778.59,
+    "نسبة الأصول المتداولة إلى الالتزامات": 10.575
+  },
+
+  pnl: {
+    "الإيرادات": 6776034963.814,
+    "تكاليف الإيرادات": 4260079279.919,
+    "إجمالي الربح": 2515955683.895,
+    "النفقات": 194826974.381,
+    "الدخل التشغيلي": 2321128709.514,
+    "دخل آخر": 3808820,
+    "إهلاك": 29488710.265,
+    "صافي الربح": 2295448819.249
+  },
+
+  balance: {
+    "إجمالي الأصول": 59450437236.098,
+    "الأصول المتداولة": 55478560917.598,
+    "الحسابات البنكية والنقدية": 4980444948.16,
+    "المدينين": 19152780833.88,
+    "أصول متداولة أخرى": 31327718803.558,
+    "المصاريف المدفوعة مقدماً": 17616332,
+    "الأصول غير المتداولة": 3971876318.5,
+    "إجمالي الالتزامات": 5258255091.829,
+    "الالتزامات الجارية": 2840759224.739,
+    "الدائنون": 2417495867.09,
+    "رأس المال": 54192182144.269,
+    "أرباح غير مخصصة": 7750757989.091,
+    "الأرباح المحتجزة": 46441424155.178
+  },
+
+  trial: [
+    {code:"1200",name:"Stock Valuation / تقييم المخزون",openDr:28314422121.45,openCr:0,movDr:2946671027.74,movCr:4504641208.97,closeDr:26756451940.22,closeCr:0},
+    {code:"1203",name:"Tax Paid / ضريبة مدفوعة",openDr:118740000,openCr:0,movDr:15994000,movCr:0,closeDr:134734000,closeCr:0},
+    {code:"1214",name:"Projects under implementation / مشاريع تحت التنفيذ",openDr:4052872611.5,openCr:0,movDr:181879440,movCr:0,closeDr:4234752051.5,closeCr:0},
+    {code:"1300",name:"Almassa Cash IQD / الصندوق",openDr:906264000,openCr:0,movDr:8479383900,movCr:8939609900,closeDr:446038000,closeCr:0},
+    {code:"1306",name:"Al-ahally Bank / بنك الأهلي",openDr:2466455630.59,openCr:0,movDr:2683875000,movCr:1675257532.69,closeDr:3475073097.9,closeCr:0},
+    {code:"1312",name:"Bank Baghdad / بنك بغداد",openDr:136562133.62,openCr:0,movDr:3040806367.52,movCr:2144305475.12,closeDr:1033063026.02,closeCr:0},
+    {code:"1400",name:"Account Receivable / حسابات القبض",openDr:15161878180.76,openCr:0,movDr:16766663919.35,movCr:12775761266.23,closeDr:19152780833.88,closeCr:0},
+    {code:"2103",name:"Tax Payable / ضريبة مستحقة",openDr:0,openCr:118740000,movDr:0,movCr:15994000,closeDr:0,closeCr:134734000},
+    {code:"2112",name:"Short-Term Loans / قروض قصيرة",openDr:0,openCr:1503700000,movDr:0,movCr:0,closeDr:0,closeCr:1503700000},
+    {code:"2200",name:"Account Payable / الدائنون",openDr:0,openCr:882280106.4,movDr:6608813226.58,movCr:8144028987.27,closeDr:0,closeCr:2417495867.09},
+    {code:"3300",name:"Capital / رأس المال",openDr:0,openCr:35324543835.86,movDr:0,movCr:0,closeDr:0,closeCr:35324543835.86},
+    {code:"4000",name:"Revenue / الإيرادات",openDr:0,openCr:18567038429.72,movDr:197929950,movCr:6796678469.01,closeDr:0,closeCr:25165786948.73},
+    {code:"4001",name:"Foreign Exchange Gain / أرباح صرف",openDr:0,openCr:69917757.94,movDr:4.4,movCr:177255609.2,closeDr:0,closeCr:247173362.74},
+    {code:"5000",name:"Cost of Goods Sold / تكلفة البضاعة",openDr:12401682090.03,openCr:0,movDr:4411917463.49,movCr:151846241.58,closeDr:16661753311.95,closeCr:0},
+    {code:"6010",name:"Salary Expenses / رواتب",openDr:264543387.08,openCr:0,movDr:63904000,movCr:0,closeDr:328447387.08,closeCr:0},
+    {code:"6030",name:"Bonus / مكافآت",openDr:21738246.8,openCr:0,movDr:7567000,movCr:0,closeDr:29305246.8,closeCr:0},
+    {code:"6042",name:"Rent / إيجار",openDr:37269974.4,openCr:0,movDr:9888667,movCr:0,closeDr:47158641.4,closeCr:0},
+    {code:"6044",name:"Taxes & fees / ضرائب ورسوم",openDr:33834664,openCr:0,movDr:4708418,movCr:0,closeDr:38543082,closeCr:0},
+    {code:"6060",name:"Fuel & Gas / وقود",openDr:10783000,openCr:0,movDr:1742250,movCr:0,closeDr:12525250,closeCr:0},
+    {code:"6080",name:"Damage Items / بضائع تالفة",openDr:70355975.72,openCr:0,movDr:17918244.68,movCr:0,closeDr:88274220.4,closeCr:0},
+    {code:"6200",name:"Bank Fees / عمولات بنكية",openDr:47438886.13,openCr:0,movDr:24897352.17,movCr:0,closeDr:72336238.3,closeCr:0},
+    {code:"6206",name:"Donations / تبرعات",openDr:120000000,openCr:0,movDr:30000000,movCr:0,closeDr:150000000,closeCr:0},
+    {code:"6210",name:"Sales Commission / عمولة مبيعات",openDr:66228000,openCr:0,movDr:18916500,movCr:0,closeDr:85144500,closeCr:0},
+    {code:"6306",name:"Buildings-Depreciation / إهلاك مباني",openDr:101632064.45,openCr:0,movDr:25408016.11,movCr:0,closeDr:127040080.57,closeCr:0},
+    {code:"nan",name:"الإجمالي",openDr:68964008849.35,openCr:68964008849.35,movDr:63519770414.01,movCr:63519770414.01,closeDr:77344244604.12,closeCr:77344244604.12}
+  ]
+};
+
+// ═══════════════════════ HELPERS ═══════════════════════
+const charts = {};
+
+function fmt(n, forceRaw=false) {
+  if(n===null||n===undefined||isNaN(n)) return '—';
+  const abs = Math.abs(n);
+  if(forceRaw) return n.toLocaleString('ar-IQ',{maximumFractionDigits:0});
+  if(abs>=1e9) return (n/1e9).toFixed(3)+' مليار';
+  if(abs>=1e6) return (n/1e6).toFixed(3)+' مليون';
+  return n.toLocaleString('ar-IQ',{maximumFractionDigits:0});
+}
+function fmtD(n){ return fmt(n)+' د.ع'; }
+function fmtP(n){ if(n===null||isNaN(n)) return '—'; return n.toFixed(2)+'%'; }
+function cc(n){ return n>=0?'pos':'neg'; }
+
+function bar(pct, color){
+  return `<div class="prog-bar"><div class="prog-fill" style="width:${Math.min(Math.abs(pct||0),100)}%;background:${color}"></div></div>`;
+}
+
+function destroyChart(id){
+  if(charts[id]){ charts[id].destroy(); delete charts[id]; }
+}
+
+// ═══════════════════════ SUMMARY ═══════════════════════
+function buildSummary(){
+  const s = D.summary;
+  document.getElementById('mainPeriod').textContent = D.summary_period;
+
+  const grossPct = s['هامش الربح الإجمالي'];
+  const netPct   = s['صافي هامش الربح'];
+  const roi      = s['العائد على الاستثمار'];
+
+  document.getElementById('pg-s').innerHTML = `
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-lbl">صافي الربح الشهري</div><div class="kpi-val g">${fmtD(s['صافي الربح'])}</div><div class="kpi-sub">${D.summary_period}</div></div>
+    <div class="kpi"><div class="kpi-lbl">إجمالي الدخل</div><div class="kpi-val go">${fmtD(s['الدخل'])}</div></div>
+    <div class="kpi"><div class="kpi-lbl">إجمالي الربح</div><div class="kpi-val g">${fmtD(s['إجمالي الربح'])}</div><div class="kpi-sub">هامش ${fmtP(grossPct)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">صافي الأصول</div><div class="kpi-val b">${fmtD(s['صافي الأصول'])}</div></div>
+    <div class="kpi"><div class="kpi-lbl">رصيد الإقفال البنكي</div><div class="kpi-val">${fmtD(s['رصيد الإقفال البنكي'])}</div></div>
+    <div class="kpi"><div class="kpi-lbl">الفائض النقدي</div><div class="kpi-val ${s['الفائض النقدي']>=0?'g':'r'}">${fmtD(s['الفائض النقدي'])}</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-ttl">مؤشرات الربحية</div>
+      <div class="prog">
+        <div class="prog-hd"><span class="prog-lbl">هامش الربح الإجمالي</span><span style="font-weight:600;color:var(--green)">${fmtP(grossPct)}</span></div>
+        ${bar(grossPct,'var(--green)')}
+      </div>
+      <div class="prog">
+        <div class="prog-hd"><span class="prog-lbl">صافي هامش الربح</span><span style="font-weight:600;color:var(--green)">${fmtP(netPct)}</span></div>
+        ${bar(netPct,'var(--green)')}
+      </div>
+      <div class="prog">
+        <div class="prog-hd"><span class="prog-lbl">العائد على الاستثمار (ROI)</span><span style="font-weight:600;color:var(--gold)">${fmtP(roi)}</span></div>
+        ${bar(roi*10,'var(--gold)')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-ttl">توزيع الدخل والتكاليف</div>
+      <div class="leg">
+        <span class="li"><span class="ld" style="background:var(--green)"></span>إجمالي الربح ${fmtP(grossPct)}</span>
+        <span class="li"><span class="ld" style="background:var(--blue)"></span>تكاليف الإيرادات ${fmtP(100-grossPct)}</span>
+      </div>
+      <div class="ch" style="height:180px"><canvas id="cDonut"></canvas></div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-ttl">المركز النقدي</div>
+      <table><tbody>
+        <tr><td>الأرباح النقدية الواردة</td><td class="pos">${fmtD(s['الأرباح النقدية'])}</td></tr>
+        <tr><td>المبلغ المُنفَق</td><td class="neg">${fmtD(Math.abs(s['المبلغ المُنفَق']))}</td></tr>
+        <tr class="tt"><td><strong>الفائض النقدي</strong></td><td class="${cc(s['الفائض النقدي'])}"><strong>${fmtD(s['الفائض النقدي'])}</strong></td></tr>
+        <tr><td>رصيد الإقفال البنكي</td><td style="font-weight:600">${fmtD(s['رصيد الإقفال البنكي'])}</td></tr>
+      </tbody></table>
+    </div>
+    <div class="card">
+      <div class="card-ttl">مؤشرات الأداء</div>
+      <table><tbody>
+        <tr><td>متوسط أيام تحصيل المدينين</td><td style="font-weight:700;color:var(--red)">${Math.round(s['متوسط أيام المدينين'])} يوم</td></tr>
+        <tr><td>متوسط أيام سداد الدائنين</td><td style="font-weight:700;color:var(--green)">${Math.round(s['متوسط أيام الدائنين'])} يوم</td></tr>
+        <tr><td>توقعات النقد قصيرة الأجل</td><td style="font-weight:600">${fmtD(s['توقعات النقد قصيرة الأجل'])}</td></tr>
+        <tr><td>نسبة الأصول / الالتزامات</td><td style="font-weight:700;color:var(--green)">${s['نسبة الأصول المتداولة إلى الالتزامات'].toFixed(2)}x</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-ttl">لمحة من الميزانية العمومية</div>
+    <div class="kpis" style="margin-bottom:0">
+      <div class="kpi"><div class="kpi-lbl">المدينون</div><div class="kpi-val b">${fmtD(s['المدينين'])}</div></div>
+      <div class="kpi"><div class="kpi-lbl">الدائنون</div><div class="kpi-val r">${fmtD(Math.abs(s['الدائنون']))}</div></div>
+      <div class="kpi"><div class="kpi-lbl">صافي الأصول</div><div class="kpi-val go">${fmtD(s['صافي الأصول'])}</div></div>
+    </div>
+  </div>`;
+
+  setTimeout(()=>{
+    destroyChart('cDonut');
+    const ctx = document.getElementById('cDonut');
+    if(!ctx) return;
+    charts['cDonut'] = new Chart(ctx,{
+      type:'doughnut',
+      data:{labels:['إجمالي الربح','تكاليف الإيرادات'],
+        datasets:[{data:[s['إجمالي الربح'],s['تكاليف الإيرادات']],backgroundColor:['#0d7a52','#1a5fa8'],borderWidth:3,borderColor:'#fff'}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'65%',
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.raw)+' د.ع'}}}}
+    });
+  },80);
+}
+
+// ═══════════════════════ P&L ═══════════════════════
+function buildPNL(){
+  const p = D.pnl;
+  const gm = p['إجمالي الربح']/p['الإيرادات']*100;
+  const nm = p['صافي الربح']/p['الإيرادات']*100;
+  const em = p['النفقات']/p['الإيرادات']*100;
+
+  document.getElementById('pg-p').innerHTML = `
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-lbl">إجمالي الإيرادات</div><div class="kpi-val go">${fmtD(p['الإيرادات'])}</div><div class="kpi-sub">${D.pnl_period}</div></div>
+    <div class="kpi"><div class="kpi-lbl">تكاليف الإيرادات</div><div class="kpi-val r">${fmtD(p['تكاليف الإيرادات'])}</div></div>
+    <div class="kpi"><div class="kpi-lbl">إجمالي الربح</div><div class="kpi-val g">${fmtD(p['إجمالي الربح'])}</div><div class="kpi-sub">هامش ${fmtP(gm)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">النفقات التشغيلية</div><div class="kpi-val r">${fmtD(p['النفقات'])}</div></div>
+    <div class="kpi"><div class="kpi-lbl">الدخل التشغيلي</div><div class="kpi-val g">${fmtD(p['الدخل التشغيلي'])}</div></div>
+    <div class="kpi"><div class="kpi-lbl">صافي الربح</div><div class="kpi-val g">${fmtD(p['صافي الربح'])}</div><div class="kpi-sub">هامش ${fmtP(nm)}</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-ttl">مخطط الإيرادات والتكاليف — ${D.pnl_period}</div>
+      <div class="leg">
+        <span class="li"><span class="ld" style="background:#1a5fa8"></span>إيرادات</span>
+        <span class="li"><span class="ld" style="background:#c0392b"></span>تكاليف</span>
+        <span class="li"><span class="ld" style="background:#0d7a52"></span>ربح</span>
+      </div>
+      <div class="ch" style="height:230px"><canvas id="cPnlBar"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-ttl">هوامش الربح والكفاءة</div>
+      <div class="prog">
+        <div class="prog-hd"><span class="prog-lbl">هامش الربح الإجمالي</span><span style="font-weight:700;color:var(--green)">${fmtP(gm)}</span></div>
+        ${bar(gm,'var(--green)')}
+      </div>
+      <div class="prog">
+        <div class="prog-hd"><span class="prog-lbl">نسبة النفقات التشغيلية</span><span style="font-weight:700;color:var(--red)">${fmtP(em)}</span></div>
+        ${bar(em,'var(--red)')}
+      </div>
+      <div class="prog">
+        <div class="prog-hd"><span class="prog-lbl">صافي هامش الربح</span><span style="font-weight:700;color:var(--gold)">${fmtP(nm)}</span></div>
+        ${bar(nm,'var(--gold)')}
+      </div>
+      <div style="margin-top:1rem;background:var(--green-l);border-radius:var(--r);padding:10px 12px">
+        <div style="font-size:11px;color:var(--text2);margin-bottom:4px">الإهلاك الشهري</div>
+        <div style="font-size:16px;font-weight:700;color:var(--green)">${fmtD(p['إهلاك'])}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-ttl">قائمة الدخل التفصيلية — ${D.pnl_period}</div>
+    <div class="tw">
+    <table>
+      <thead><tr><th>البيان</th><th>المبلغ (دينار عراقي)</th></tr></thead>
+      <tbody>
+        <tr class="ts"><td colspan="2">الإيرادات</td></tr>
+        <tr><td>إجمالي الإيرادات</td><td class="pos">${fmt(p['الإيرادات'],true)}</td></tr>
+        <tr class="ts"><td colspan="2">تكاليف الإيرادات</td></tr>
+        <tr class="t1"><td>تكلفة البضاعة المباعة (COGS)</td><td class="neg">(${fmt(p['تكاليف الإيرادات'],true)})</td></tr>
+        <tr class="tt"><td><strong>إجمالي الربح</strong></td><td class="pos"><strong>${fmt(p['إجمالي الربح'],true)}</strong></td></tr>
+        <tr class="ts"><td colspan="2">النفقات التشغيلية</td></tr>
+        <tr class="t1"><td>إجمالي النفقات التشغيلية</td><td class="neg">(${fmt(p['النفقات'],true)})</td></tr>
+        <tr class="tt"><td><strong>الدخل التشغيلي</strong></td><td class="pos"><strong>${fmt(p['الدخل التشغيلي'],true)}</strong></td></tr>
+        <tr class="ts"><td colspan="2">بنود أخرى</td></tr>
+        <tr class="t1"><td>دخل آخر</td><td class="pos">${fmt(p['دخل آخر'],true)}</td></tr>
+        <tr class="t1"><td>الإهلاك</td><td class="neg">(${fmt(p['إهلاك'],true)})</td></tr>
+        <tr class="tt"><td><strong>صافي الربح</strong></td><td class="pos"><strong>${fmt(p['صافي الربح'],true)}</strong></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>`;
+
+  setTimeout(()=>{
+    destroyChart('cPnlBar');
+    const ctx = document.getElementById('cPnlBar');
+    if(!ctx) return;
+    charts['cPnlBar'] = new Chart(ctx,{
+      type:'bar',
+      data:{
+        labels:['الإيرادات','تكاليف الإيرادات','إجمالي الربح','النفقات','صافي الربح'],
+        datasets:[{data:[p['الإيرادات'],p['تكاليف الإيرادات'],p['إجمالي الربح'],p['النفقات'],p['صافي الربح']],
+          backgroundColor:['#1a5fa8','#c0392b','#0d7a52','#e55039','#0d7a52'],borderWidth:0,borderRadius:5}]
+      },
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.raw/1e6).toFixed(2)+' مليون'}}},
+        scales:{y:{ticks:{callback:v=>(v/1e9).toFixed(2)+'B',font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}
+    });
+  },80);
+}
+
+// ═══════════════════════ BALANCE ═══════════════════════
+function buildBalance(){
+  const b = D.balance;
+  const eqPct = b['رأس المال']/b['إجمالي الأصول']*100;
+  const liPct = b['إجمالي الالتزامات']/b['إجمالي الأصول']*100;
+
+  document.getElementById('pg-b').innerHTML = `
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-lbl">إجمالي الأصول</div><div class="kpi-val go">${fmtD(b['إجمالي الأصول'])}</div><div class="kpi-sub">${D.balance_period}</div></div>
+    <div class="kpi"><div class="kpi-lbl">الأصول المتداولة</div><div class="kpi-val g">${fmtD(b['الأصول المتداولة'])}</div></div>
+    <div class="kpi"><div class="kpi-lbl">الأصول غير المتداولة</div><div class="kpi-val b">${fmtD(b['الأصول غير المتداولة'])}</div></div>
+    <div class="kpi"><div class="kpi-lbl">إجمالي الالتزامات</div><div class="kpi-val r">${fmtD(b['إجمالي الالتزامات'])}</div><div class="kpi-sub">${fmtP(liPct)} من الأصول</div></div>
+    <div class="kpi"><div class="kpi-lbl">رأس المال</div><div class="kpi-val g">${fmtD(b['رأس المال'])}</div><div class="kpi-sub">${fmtP(eqPct)} من الأصول</div></div>
+    <div class="kpi"><div class="kpi-lbl">الأرباح المحتجزة</div><div class="kpi-val go">${fmtD(b['الأرباح المحتجزة'])}</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-ttl">هيكل الأصول</div>
+      <div class="leg">
+        <span class="li"><span class="ld" style="background:#1a5fa8"></span>بنك / نقد</span>
+        <span class="li"><span class="ld" style="background:#0d7a52"></span>مدينون</span>
+        <span class="li"><span class="ld" style="background:#c9960c"></span>أصول متداولة أخرى</span>
+        <span class="li"><span class="ld" style="background:#7c5cbf"></span>أصول ثابتة</span>
+      </div>
+      <div class="ch" style="height:210px"><canvas id="cAssets"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-ttl">الالتزامات ورأس المال</div>
+      <div class="leg">
+        <span class="li"><span class="ld" style="background:#c0392b"></span>الالتزامات ${fmtP(liPct)}</span>
+        <span class="li"><span class="ld" style="background:#0d7a52"></span>رأس المال ${fmtP(eqPct)}</span>
+      </div>
+      <div class="ch" style="height:210px"><canvas id="cEquity"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-ttl">الميزانية العمومية التفصيلية — ${D.balance_period}</div>
+    <div class="tw">
+    <table>
+      <thead><tr><th>البيان</th><th>المبلغ (دينار عراقي)</th></tr></thead>
+      <tbody>
+        <tr class="ts"><td colspan="2">الأصول</td></tr>
+        <tr><td style="font-weight:700">إجمالي الأصول</td><td class="pos">${fmt(b['إجمالي الأصول'],true)}</td></tr>
+        <tr class="t1"><td>الأصول المتداولة</td><td>${fmt(b['الأصول المتداولة'],true)}</td></tr>
+        <tr class="t2"><td>الحسابات البنكية والنقدية</td><td>${fmt(b['الحسابات البنكية والنقدية'],true)}</td></tr>
+        <tr class="t2"><td>المدينون (حسابات القبض)</td><td>${fmt(b['المدينين'],true)}</td></tr>
+        <tr class="t2"><td>أصول متداولة أخرى</td><td>${fmt(b['أصول متداولة أخرى'],true)}</td></tr>
+        <tr class="t2"><td>المصاريف المدفوعة مقدماً</td><td>${fmt(b['المصاريف المدفوعة مقدماً'],true)}</td></tr>
+        <tr class="t1"><td>الأصول غير المتداولة (الثابتة)</td><td>${fmt(b['الأصول غير المتداولة'],true)}</td></tr>
+        <tr class="ts"><td colspan="2">الالتزامات</td></tr>
+        <tr><td style="font-weight:700">إجمالي الالتزامات</td><td class="neg">(${fmt(b['إجمالي الالتزامات'],true)})</td></tr>
+        <tr class="t1"><td>الالتزامات الجارية</td><td class="neg">(${fmt(b['الالتزامات الجارية'],true)})</td></tr>
+        <tr class="t2"><td>الدائنون</td><td class="neg">(${fmt(b['الدائنون'],true)})</td></tr>
+        <tr class="ts"><td colspan="2">رأس المال</td></tr>
+        <tr><td style="font-weight:700">إجمالي رأس المال</td><td class="pos">${fmt(b['رأس المال'],true)}</td></tr>
+        <tr class="t1"><td>أرباح غير مخصصة</td><td>${fmt(b['أرباح غير مخصصة'],true)}</td></tr>
+        <tr class="t1"><td>الأرباح المحتجزة</td><td>${fmt(b['الأرباح المحتجزة'],true)}</td></tr>
+        <tr class="tt"><td><strong>إجمالي الالتزامات + رأس المال</strong></td><td class="pos"><strong>${fmt(b['إجمالي الأصول'],true)}</strong></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>`;
+
+  setTimeout(()=>{
+    destroyChart('cAssets'); destroyChart('cEquity');
+    const c1=document.getElementById('cAssets'), c2=document.getElementById('cEquity');
+    if(!c1||!c2) return;
+    const other = b['الأصول المتداولة'] - b['الحسابات البنكية والنقدية'] - b['المدينين'] - b['المصاريف المدفوعة مقدماً'];
+    charts['cAssets'] = new Chart(c1,{type:'doughnut',
+      data:{labels:['بنك/نقد','مدينون','أصول متداولة أخرى','ثابتة'],
+        datasets:[{data:[b['الحسابات البنكية والنقدية'],b['المدينين'],other,b['الأصول غير المتداولة']],
+          backgroundColor:['#1a5fa8','#0d7a52','#c9960c','#7c5cbf'],borderWidth:3,borderColor:'#fff'}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.raw/1e9).toFixed(3)+' مليار'}}}}});
+    charts['cEquity'] = new Chart(c2,{type:'doughnut',
+      data:{labels:['الالتزامات','رأس المال'],
+        datasets:[{data:[b['إجمالي الالتزامات'],b['رأس المال']],
+          backgroundColor:['#c0392b','#0d7a52'],borderWidth:3,borderColor:'#fff'}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.raw/1e9).toFixed(3)+' مليار'}}}}});
+  },80);
+}
+
+// ═══════════════════════ TRIAL ═══════════════════════
+function buildTrial(){
+  const rows = D.trial;
+  const totRow = rows.find(r=>r.name==='الإجمالي') || {openDr:0,openCr:0,movDr:0,movCr:0,closeDr:0,closeCr:0};
+  const data   = rows.filter(r=>r.name!=='الإجمالي');
+
+  const top8 = [...data].filter(r=>r.closeDr>0||r.closeCr>0)
+    .sort((a,b)=>(b.closeDr+b.closeCr)-(a.closeDr+a.closeCr)).slice(0,8);
+
+  const tableRows = data.map(r=>`
+    <tr>
+      <td>${r.code}</td>
+      <td>${r.name}</td>
+      <td>${r.openDr?fmt(r.openDr,true):'—'}</td>
+      <td>${r.openCr?fmt(r.openCr,true):'—'}</td>
+      <td>${r.movDr?fmt(r.movDr,true):'—'}</td>
+      <td>${r.movCr?fmt(r.movCr,true):'—'}</td>
+      <td class="${r.closeDr?'pos':''}">${r.closeDr?fmt(r.closeDr,true):'—'}</td>
+      <td class="${r.closeCr?'neg':''}">${r.closeCr?fmt(r.closeCr,true):'—'}</td>
+    </tr>`).join('');
+
+  document.getElementById('pg-t').innerHTML = `
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-lbl">الرصيد الافتتاحي (مدين)</div><div class="kpi-val">${fmt(totRow.openDr)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">حركة ${D.trial_period} — مدين</div><div class="kpi-val b">${fmt(totRow.movDr)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">حركة ${D.trial_period} — دائن</div><div class="kpi-val go">${fmt(totRow.movCr)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">الرصيد الختامي المدين</div><div class="kpi-val g">${fmt(totRow.closeDr)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">الرصيد الختامي الدائن</div><div class="kpi-val g">${fmt(totRow.closeCr)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">الميزان متوازن؟</div><div class="kpi-val g">${Math.abs(totRow.closeDr-totRow.closeCr)<10?'✓ نعم':'✗ لا'}</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-ttl">أكبر الحسابات — الرصيد الختامي (${D.trial_period})</div>
+    <div class="leg">
+      <span class="li"><span class="ld" style="background:#1a5fa8"></span>رصيد مدين (أصول / مصاريف)</span>
+      <span class="li"><span class="ld" style="background:#c0392b"></span>رصيد دائن (التزامات / إيرادات)</span>
+    </div>
+    <div class="ch" style="height:${top8.length*46+60}px"><canvas id="cTrial"></canvas></div>
+  </div>
+
+  <div class="card">
+    <div class="card-ttl">تفاصيل ميزان المراجعة — ${D.trial_period} (دينار عراقي)</div>
+    <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>الرمز</th><th>اسم الحساب</th>
+          <th>رصيد افتتاحي مدين</th><th>رصيد افتتاحي دائن</th>
+          <th>حركة مدين</th><th>حركة دائن</th>
+          <th>رصيد ختامي مدين</th><th>رصيد ختامي دائن</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${tableRows}
+        <tr class="tt">
+          <td colspan="2"><strong>الإجمالي</strong></td>
+          <td><strong>${fmt(totRow.openDr,true)}</strong></td>
+          <td><strong>${fmt(totRow.openCr,true)}</strong></td>
+          <td><strong>${fmt(totRow.movDr,true)}</strong></td>
+          <td><strong>${fmt(totRow.movCr,true)}</strong></td>
+          <td class="pos"><strong>${fmt(totRow.closeDr,true)}</strong></td>
+          <td class="neg"><strong>${fmt(totRow.closeCr,true)}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>`;
+
+  setTimeout(()=>{
+    destroyChart('cTrial');
+    const ctx=document.getElementById('cTrial');
+    if(!ctx) return;
+    charts['cTrial'] = new Chart(ctx,{
+      type:'bar', indexAxis:'y',
+      data:{
+        labels:top8.map(r=>r.name.length>28?r.name.slice(0,28)+'…':r.name),
+        datasets:[
+          {label:'مدين',data:top8.map(r=>r.closeDr),backgroundColor:'#1a5fa8',borderWidth:0,borderRadius:3},
+          {label:'دائن',data:top8.map(r=>r.closeCr),backgroundColor:'#c0392b',borderWidth:0,borderRadius:3}
+        ]
+      },
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.raw/1e9).toFixed(3)+' مليار'}}},
+        scales:{x:{ticks:{callback:v=>(v/1e9).toFixed(1)+'B',font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}},y:{ticks:{font:{size:11}},grid:{display:false}}}}
+    });
+  },80);
+}
+
+// ═══════════════════════ NAV ═══════════════════════
+function go(id, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('pg-'+id).classList.add('on');
+  btn.classList.add('active');
+}
+
+function exportPDF(){
+  const tip = document.createElement('div');
+  tip.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:#18170f;color:#fff;padding:10px 22px;border-radius:8px;font-size:13px;z-index:999;font-family:Tajawal,sans-serif';
+  tip.textContent = '💡 في نافذة الطباعة: اختر "حفظ بصيغة PDF" من قائمة الوجهة';
+  document.body.appendChild(tip);
+  setTimeout(()=>{ window.print(); setTimeout(()=>tip.remove(),3000); },300);
+}
+
+// ═══════════════════════ INIT ═══════════════════════
+buildSummary();
+buildPNL();
+buildBalance();
+buildTrial();
+</script>
+</body>
+</html>
