@@ -360,11 +360,9 @@ footer{
 // ═══════════════════════════════════════════════════════════
 
 // ★ الإعداد الوحيد — اسم المستخدم / المستودع على GitHub
-const REPO_OWNER = 'wahajalmassa001-dotcom';
-const REPO_NAME  = '-';
-const BRANCH     = 'main';
-const DATA_PATH  = 'data/data.json';
-const DATA_URL   = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${DATA_PATH}`;
+// ★ رابط data.json — نسبي لأنه على نفس النطاق (GitHub Pages)
+// لا تغيّر هذا السطر — يعمل تلقائياً
+const DATA_URL = './data/data.json';
 
 // ─── بيانات احتياطية (تظهر فقط إذا فشل تحميل data.json) ───
 const FALLBACK = {
