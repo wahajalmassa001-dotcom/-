@@ -1,0 +1,1282 @@
+{
+  "meta": {
+    "period": "يوليو 2026",
+    "raw_period": "2026-07",
+    "generated": "2026-07-08T04:31:46.206Z",
+    "generated_by": "أكرم الأحبابي — المدير المالي",
+    "summary_period": "يونيو 2026",
+    "pnl_period": "يونيو 2026",
+    "balance_period": "اعتبارًا من 30 يونيو, 2026",
+    "trial_period": "يونيو 2026",
+    "cashflow_period": "يونيو 2026"
+  },
+  "summary": {
+    "الأرباح النقدية": 17261518291.96,
+    "المبلغ المُنفَق": -15462911749.2,
+    "الفائض النقدي": 1798606542.759998,
+    "رصيد الإقفال البنكي": 6779051490.919999,
+    "الدخل": 5238616158.864,
+    "تكاليف الإيرادات": 3243309279.643,
+    "إجمالي الربح": 1995306879.221,
+    "النفقات": 226648678.344,
+    "صافي الربح": 1744631734.421,
+    "المدينين": 19390302204.55,
+    "الدائنون": -2487594080.09,
+    "صافي الأصول": 55871910359.13,
+    "صافي هامش الربح": 33.30329387597899,
+    "العائد على الاستثمار": 2.845076257915877,
+    "متوسط أيام المدينين": 111.0425059778849,
+    "متوسط أيام الدائنين": 21.50683763499926,
+    "توقعات النقد قصيرة الأجل": 16902708124.46,
+    "نسبة الأصول المتداولة إلى الالتزامات": 10.52437802948748
+  },
+  "pnl": {
+    "الإيرادات": 5238616176.684,
+    "تكاليف الإيرادات": 3243309330.243,
+    "إجمالي الربح": 1995306846.441,
+    "النفقات": 226648678.344,
+    "الدخل التشغيلي": 1768658168.097,
+    "دخل آخر": 5478160.455,
+    "إهلاك": 29504626.911,
+    "صافي الربح": 1744631701.641
+  },
+  "balance": {
+    "الأصول المتداولة": 31153642853.702,
+    "الأصول غير المتداولة": 31153642853.702,
+    "أصول متداولة أخرى": 7478992361.542002,
+    "الحسابات البنكية": 6779151490.919999,
+    "المدينين": 16869283213.84,
+    "المصاريف المدفوعة": 26215787.4,
+    "الالتزامات الجارية": 58800169664.362,
+    "الدائنون": 2487594080.09,
+    "رأس المال": 58800169664.362,
+    "أرباح غير مخصصة": 43920505185.838,
+    "الأرباح المحتجزة": 43920505185.838
+  },
+  "trial": [
+    {
+      "code": "1100",
+      "name": "Current Assets",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1200",
+      "name": "Stock Valuation",
+      "openDr": 26756451940.21899,
+      "openCr": 0,
+      "movDr": 3061182892.066,
+      "movCr": 3398501840.124,
+      "closeDr": 26419132992.161,
+      "closeCr": 0
+    },
+    {
+      "code": "1201",
+      "name": "Stock Interim (Received)",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 2957902071.325,
+      "movCr": 2957902071.325,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1202",
+      "name": "Stock Interim (Delivered)",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 3438133091.932,
+      "movCr": 3438133091.932,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1203",
+      "name": "Tax Paid",
+      "openDr": 134734000,
+      "openCr": 0,
+      "movDr": 34562000,
+      "movCr": 0,
+      "closeDr": 169296000,
+      "closeCr": 0
+    },
+    {
+      "code": "1205",
+      "name": "Suspense Account",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1207",
+      "name": "Outstanding Payments",
+      "openDr": 85357760,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 85357760,
+      "closeCr": 0
+    },
+    {
+      "code": "1208",
+      "name": "Liquidity Transfer - Under Collection",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 3529029321.96,
+      "movCr": 3529029321.96,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1209",
+      "name": "Internal Transfers",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 6244880000,
+      "movCr": 6244880000,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1210",
+      "name": "Computer's & Electronics",
+      "openDr": 8987000,
+      "openCr": 0,
+      "movDr": 325000,
+      "movCr": 0,
+      "closeDr": 9312000,
+      "closeCr": 0
+    },
+    {
+      "code": "1211",
+      "name": "Equipments",
+      "openDr": 119192989,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 119192989,
+      "closeCr": 0
+    },
+    {
+      "code": "1212",
+      "name": "Vehicles",
+      "openDr": 102096825,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 102096825,
+      "closeCr": 0
+    },
+    {
+      "code": "1213",
+      "name": "Furniture & Fixtures",
+      "openDr": 3000000,
+      "openCr": 0,
+      "movDr": 2270000,
+      "movCr": 0,
+      "closeDr": 5270000,
+      "closeCr": 0
+    },
+    {
+      "code": "1214",
+      "name": "Projects under implementation",
+      "openDr": 4234752051.5,
+      "openCr": 0,
+      "movDr": 130275600,
+      "movCr": 0,
+      "closeDr": 4365027651.5,
+      "closeCr": 0
+    },
+    {
+      "code": "1215",
+      "name": "Inventory Adjustments",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1300",
+      "name": "Almassa Cash IQD",
+      "openDr": 446038000,
+      "openCr": 0,
+      "movDr": 7474603720,
+      "movCr": 7455957720,
+      "closeDr": 464684000,
+      "closeCr": 0
+    },
+    {
+      "code": "1302",
+      "name": "Asia Bank-Wahaj Almassa IQD",
+      "openDr": 10610,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 10610,
+      "closeCr": 0
+    },
+    {
+      "code": "1303",
+      "name": "Al-atihad Bank /Wahaj Massa -IQD",
+      "openDr": 68780,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 68780,
+      "closeCr": 0
+    },
+    {
+      "code": "1305",
+      "name": "Al-eqtsaad Bank/Wahaj Massa -IQD",
+      "openDr": 601172,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 601172,
+      "closeCr": 0
+    },
+    {
+      "code": "1306",
+      "name": "Al-ahally Bank/Wahaj Massa-IQD",
+      "openDr": 3475073097.900002,
+      "openCr": 0,
+      "movDr": 3969038000,
+      "movCr": 1759915028.96,
+      "closeDr": 5684196068.940002,
+      "closeCr": 0
+    },
+    {
+      "code": "1307",
+      "name": "Bank Altanmia USD-Wahaj Massa",
+      "openDr": 45182,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 45182,
+      "closeCr": 0
+    },
+    {
+      "code": "1308",
+      "name": "Bank Altanmia IQD-Wahaj Massa",
+      "openDr": 187704,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 187704,
+      "closeCr": 0
+    },
+    {
+      "code": "1309",
+      "name": "Bank Almostishar-Wahaj Massa",
+      "openDr": 1694892,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 1694892,
+      "closeCr": 0
+    },
+    {
+      "code": "1310",
+      "name": "Bank Almashriq-Wahaj Massa",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1311",
+      "name": "Bank Elaaf-Wahaj Massa",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1312",
+      "name": "Bank Baghdad-Wahaj Massa",
+      "openDr": 1033063026.02,
+      "openCr": 0,
+      "movDr": 1639880000,
+      "movCr": 2102907428.28,
+      "closeDr": 570035597.7399979,
+      "closeCr": 0
+    },
+    {
+      "code": "1313",
+      "name": "Bank Iraqi Trade-Wahaj Massa",
+      "openDr": 1618675.279999971,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 1618675.279999971,
+      "closeCr": 0
+    },
+    {
+      "code": "1314",
+      "name": "AL-sdeeka Exchange",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1315",
+      "name": "VISA CARD-NEO",
+      "openDr": 665000,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 665000,
+      "closeCr": 0
+    },
+    {
+      "code": "1316",
+      "name": "Almassa Cash USD",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1317",
+      "name": "Advance Petty Cash",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "1318",
+      "name": "Al _Khadra Cash",
+      "openDr": 14512250,
+      "openCr": 0,
+      "movDr": 649067250,
+      "movCr": 615102250,
+      "closeDr": 48477250,
+      "closeCr": 0
+    },
+    {
+      "code": "1319",
+      "name": "Bank Baghdad- Zhour",
+      "openDr": 6866558.959999919,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 6866558.959999919,
+      "closeCr": 0
+    },
+    {
+      "code": "1400",
+      "name": "Account Receivable",
+      "openDr": 19142777980.73,
+      "openCr": 0,
+      "movDr": 14403632596.044,
+      "movCr": 16677127362.934,
+      "closeDr": 16869283213.84,
+      "closeCr": 0
+    },
+    {
+      "code": "1401",
+      "name": "Prepayments",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 87130042.4,
+      "movCr": 76013920,
+      "closeDr": 11116122.40000001,
+      "closeCr": 0
+    },
+    {
+      "code": "1402",
+      "name": "Prepaid Rent",
+      "openDr": 17616332,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 2516667,
+      "closeDr": 15099665,
+      "closeCr": 0
+    },
+    {
+      "code": "1502",
+      "name": "Fixed Asset-Earth Yoseufia",
+      "openDr": 804600000,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 804600000,
+      "closeCr": 0
+    },
+    {
+      "code": "1503",
+      "name": "Fixed Asset-New Wearhouse 2000 M",
+      "openDr": 616574800,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 616574800,
+      "closeCr": 0
+    },
+    {
+      "code": "1505",
+      "name": "Fixed Asset-The (4) old warehouses",
+      "openDr": 673134950,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 673134950,
+      "closeCr": 0
+    },
+    {
+      "code": "1506",
+      "name": "Fixed Asset-Building-Almassa",
+      "openDr": 1496274502.5,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 1496274502.5,
+      "closeCr": 0
+    },
+    {
+      "code": "1507",
+      "name": "Fixed Asset-Iran Lap",
+      "openDr": 30074566,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 30074566,
+      "closeCr": 0
+    },
+    {
+      "code": "1508",
+      "name": "Fixed Asset-Al Khadra Showroom",
+      "openDr": 332150000,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 332150000,
+      "closeCr": 0
+    },
+    {
+      "code": "1509",
+      "name": "Fixed Asset-Templets 15 M",
+      "openDr": 13775000,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 13775000,
+      "closeCr": 0
+    },
+    {
+      "code": "1510",
+      "name": "Fixed Asset-Templets 13 M",
+      "openDr": 5292500,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 5292500,
+      "closeCr": 0
+    },
+    {
+      "code": "2103",
+      "name": "Tax Payable",
+      "openDr": 0,
+      "openCr": 134734000,
+      "movDr": 0,
+      "movCr": 34562000,
+      "closeDr": 0,
+      "closeCr": 169296000
+    },
+    {
+      "code": "2105",
+      "name": "The (4) old warehouses-Acc/ Depreciation",
+      "openDr": 0,
+      "openCr": 389362373.039,
+      "movDr": 0,
+      "movCr": 6599362.255,
+      "closeDr": 0,
+      "closeCr": 395961735.294
+    },
+    {
+      "code": "2106",
+      "name": "New Wearhouse 2000 M-Acc/ Depreciation",
+      "openDr": 0,
+      "openCr": 284107996.078,
+      "movDr": 0,
+      "movCr": 6044850.981,
+      "closeDr": 0,
+      "closeCr": 290152847.059
+    },
+    {
+      "code": "2107",
+      "name": "Iran Lap - Acc/ Depreciation",
+      "openDr": 0,
+      "openCr": 13857888.255,
+      "movDr": 0,
+      "movCr": 294848.686,
+      "closeDr": 0,
+      "closeCr": 14152736.941
+    },
+    {
+      "code": "2108",
+      "name": "Accrued Expanses-Rent warehouses",
+      "openDr": 0,
+      "openCr": 10304000,
+      "movDr": 0,
+      "movCr": 5152000,
+      "closeDr": 0,
+      "closeCr": 15456000
+    },
+    {
+      "code": "2109",
+      "name": "Building-Almassa -Acc/ Depreciation",
+      "openDr": 0,
+      "openCr": 349130717.367,
+      "movDr": 0,
+      "movCr": 12468954.191,
+      "closeDr": 0,
+      "closeCr": 361599671.558
+    },
+    {
+      "code": "2110",
+      "name": "Accrued Expanses",
+      "openDr": 0,
+      "openCr": 75269500,
+      "movDr": 125000,
+      "movCr": 17533500,
+      "closeDr": 0,
+      "closeCr": 92678000
+    },
+    {
+      "code": "2111",
+      "name": "Donations Payable",
+      "openDr": 0,
+      "openCr": 80292750,
+      "movDr": 24500000,
+      "movCr": 30000000,
+      "closeDr": 0,
+      "closeCr": 85792750
+    },
+    {
+      "code": "2112",
+      "name": "Short-Term Loans",
+      "openDr": 0,
+      "openCr": 1503700000,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 1503700000
+    },
+    {
+      "code": "2114",
+      "name": "Salaries Payable",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 63004410.455,
+      "movCr": 63004410.455,
+      "closeDr": 0,
+      "closeCr": 0
+    },
+    {
+      "code": "2116",
+      "name": "Accrued Interest Payable",
+      "openDr": 0,
+      "openCr": 25397225,
+      "movDr": 0,
+      "movCr": 7397250,
+      "closeDr": 0,
+      "closeCr": 32794475
+    },
+    {
+      "code": "2200",
+      "name": "Account Payable",
+      "openDr": 0,
+      "openCr": 2416999297.089996,
+      "movDr": 9153840273.27,
+      "movCr": 9224528047.27,
+      "closeDr": 0,
+      "closeCr": 2487687071.090012
+    },
+    {
+      "code": "2201",
+      "name": "Equipment's - Accumulated Depreciation",
+      "openDr": 0,
+      "openCr": 97388607.332,
+      "movDr": 0,
+      "movCr": 1296186.237,
+      "closeDr": 0,
+      "closeCr": 98684793.569
+    },
+    {
+      "code": "2202",
+      "name": "Computer's & Electronics - Accumulated Depreciation",
+      "openDr": 0,
+      "openCr": 5287340.503,
+      "movDr": 0,
+      "movCr": 757921.922,
+      "closeDr": 0,
+      "closeCr": 6045262.425
+    },
+    {
+      "code": "2203",
+      "name": "Vehicles - Accumulated Depreciation",
+      "openDr": 0,
+      "openCr": 13717448.25,
+      "movDr": 0,
+      "movCr": 1958669.305,
+      "closeDr": 0,
+      "closeCr": 15676117.555
+    },
+    {
+      "code": "2204",
+      "name": "Furniture & Fixtures - Accumulated Depreciation",
+      "openDr": 0,
+      "openCr": 460366.076,
+      "movDr": 0,
+      "movCr": 83833.334,
+      "closeDr": 0,
+      "closeCr": 544199.41
+    },
+    {
+      "code": "3100",
+      "name": "Undistributed Profits/Losses",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 30000000,
+      "movCr": 0,
+      "closeDr": 30000000,
+      "closeCr": 0
+    },
+    {
+      "code": "3300",
+      "name": "Capital",
+      "openDr": 0,
+      "openCr": 35324543835.856,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 35324543835.856
+    },
+    {
+      "code": "3301",
+      "name": "LAYTH ABDULAMEER ALI",
+      "openDr": 0,
+      "openCr": 864893288.84,
+      "movDr": 196127495.81,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 668765793.03
+    },
+    {
+      "code": "3302",
+      "name": "ALI MOHSIN JASIM",
+      "openDr": 0,
+      "openCr": 1037204933.79,
+      "movDr": 235201739.84,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 802003193.95
+    },
+    {
+      "code": "3303",
+      "name": "AMMAR ABDULRASOOL ALI",
+      "openDr": 0,
+      "openCr": 864893288.85,
+      "movDr": 196127495.81,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 668765793.04
+    },
+    {
+      "code": "3304",
+      "name": "GHAWTH ABDULRASOOL ALI",
+      "openDr": 0,
+      "openCr": 864893288.85,
+      "movDr": 196127495.81,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 668765793.04
+    },
+    {
+      "code": "3305",
+      "name": "JAWAD KADHIM FAZZAA",
+      "openDr": 0,
+      "openCr": 2805900592.6,
+      "movDr": 636279947.86,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 2169620644.74
+    },
+    {
+      "code": "3306",
+      "name": "HAYDER ABDULAMEER ALI",
+      "openDr": 0,
+      "openCr": 864893288.85,
+      "movDr": 196127495.83,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 668765793.02
+    },
+    {
+      "code": "3307",
+      "name": "HAYDER KADHIM FAZAA",
+      "openDr": 0,
+      "openCr": 653672562.7700001,
+      "movDr": 148230035.4,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 505442527.3700001
+    },
+    {
+      "code": "3308",
+      "name": "MAYTHAM MOHSIN JASIM",
+      "openDr": 0,
+      "openCr": 692581643.9,
+      "movDr": 157053251.79,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 535528392.1099999
+    },
+    {
+      "code": "3309",
+      "name": "HUSHAM WATTAN ABDULHASAN",
+      "openDr": 0,
+      "openCr": 2467947430.872,
+      "movDr": 559644011.19,
+      "movCr": 0,
+      "closeDr": 0,
+      "closeCr": 1908303419.682
+    },
+    {
+      "code": "4000",
+      "name": "Revenue",
+      "openDr": 0,
+      "openCr": 25165924948.731,
+      "movDr": 137821420,
+      "movCr": 5212602546.736,
+      "closeDr": 0,
+      "closeCr": 30240706075.467
+    },
+    {
+      "code": "4001",
+      "name": "Foreign Exchange Gain",
+      "openDr": 0,
+      "openCr": 247173374.153,
+      "movDr": 2000701.2,
+      "movCr": 165832005.148,
+      "closeDr": 0,
+      "closeCr": 411004678.101
+    },
+    {
+      "code": "4002",
+      "name": "Cash Difference Gain",
+      "openDr": 0,
+      "openCr": 31300,
+      "movDr": 0,
+      "movCr": 2946,
+      "closeDr": 0,
+      "closeCr": 34246
+    },
+    {
+      "code": "4003",
+      "name": "Cash Discount Gain",
+      "openDr": 0,
+      "openCr": 790,
+      "movDr": 0,
+      "movCr": 800,
+      "closeDr": 0,
+      "closeCr": 1590
+    },
+    {
+      "code": "4004",
+      "name": "Other Income",
+      "openDr": 0,
+      "openCr": 110433770.4,
+      "movDr": 0,
+      "movCr": 2949250,
+      "closeDr": 0,
+      "closeCr": 113383020.4
+    },
+    {
+      "code": "4005",
+      "name": "Deductions - Salaries",
+      "openDr": 0,
+      "openCr": 4285423.077,
+      "movDr": 0,
+      "movCr": 2528910.455,
+      "closeDr": 0,
+      "closeCr": 6814333.532
+    },
+    {
+      "code": "5000",
+      "name": "Cost of Goods Sold",
+      "openDr": 16661753311.947,
+      "openCr": 0,
+      "movDr": 3312388531.191,
+      "movCr": 69093303.933,
+      "closeDr": 19905048539.205,
+      "closeCr": 0
+    },
+    {
+      "code": "6000",
+      "name": "General Expenses",
+      "openDr": 13374777.72,
+      "openCr": 0,
+      "movDr": 51000,
+      "movCr": 0,
+      "closeDr": 13425777.72,
+      "closeCr": 0
+    },
+    {
+      "code": "6010",
+      "name": "Salary Expenses",
+      "openDr": 328447387.077,
+      "openCr": 0,
+      "movDr": 67544010.855,
+      "movCr": 0,
+      "closeDr": 395991397.932,
+      "closeCr": 0
+    },
+    {
+      "code": "6020",
+      "name": "Interest Expense",
+      "openDr": 25397225,
+      "openCr": 0,
+      "movDr": 7397250,
+      "movCr": 0,
+      "closeDr": 32794475,
+      "closeCr": 0
+    },
+    {
+      "code": "6030",
+      "name": "Bonus",
+      "openDr": 29305246.8,
+      "openCr": 0,
+      "movDr": 670000,
+      "movCr": 0,
+      "closeDr": 29975246.8,
+      "closeCr": 0
+    },
+    {
+      "code": "6040",
+      "name": "Catering Expenses",
+      "openDr": 600000,
+      "openCr": 0,
+      "movDr": 2500,
+      "movCr": 0,
+      "closeDr": 602500,
+      "closeCr": 0
+    },
+    {
+      "code": "6041",
+      "name": "Stationery",
+      "openDr": 1287000,
+      "openCr": 0,
+      "movDr": 566500,
+      "movCr": 0,
+      "closeDr": 1853500,
+      "closeCr": 0
+    },
+    {
+      "code": "6042",
+      "name": "Rent",
+      "openDr": 47158641.4,
+      "openCr": 0,
+      "movDr": 9268249.4,
+      "movCr": 0,
+      "closeDr": 56426890.8,
+      "closeCr": 0
+    },
+    {
+      "code": "6043",
+      "name": "Electricity fees",
+      "openDr": 1647989.4,
+      "openCr": 0,
+      "movDr": 509385.2,
+      "movCr": 0,
+      "closeDr": 2157374.6,
+      "closeCr": 0
+    },
+    {
+      "code": "6044",
+      "name": "Taxes & fees",
+      "openDr": 38543082,
+      "openCr": 0,
+      "movDr": 14586000,
+      "movCr": 0,
+      "closeDr": 53129082,
+      "closeCr": 0
+    },
+    {
+      "code": "6045",
+      "name": "Phone fees",
+      "openDr": 2056500,
+      "openCr": 0,
+      "movDr": 399000,
+      "movCr": 0,
+      "closeDr": 2455500,
+      "closeCr": 0
+    },
+    {
+      "code": "6046",
+      "name": "Maintenanse Cars",
+      "openDr": 1057250,
+      "openCr": 0,
+      "movDr": 99000,
+      "movCr": 0,
+      "closeDr": 1156250,
+      "closeCr": 0
+    },
+    {
+      "code": "6047",
+      "name": "Transportation Expense",
+      "openDr": 3594290,
+      "openCr": 0,
+      "movDr": 391684,
+      "movCr": 0,
+      "closeDr": 3985974,
+      "closeCr": 0
+    },
+    {
+      "code": "6048",
+      "name": "Maintenance Expense",
+      "openDr": 3525544.4,
+      "openCr": 0,
+      "movDr": 487009.2,
+      "movCr": 0,
+      "closeDr": 4012553.6,
+      "closeCr": 0
+    },
+    {
+      "code": "6049",
+      "name": "Transfer Fee",
+      "openDr": 2840055.2,
+      "openCr": 0,
+      "movDr": 62000,
+      "movCr": 0,
+      "closeDr": 2902055.2,
+      "closeCr": 0
+    },
+    {
+      "code": "6050",
+      "name": "Legal Fees",
+      "openDr": 2331636,
+      "openCr": 0,
+      "movDr": 320000,
+      "movCr": 0,
+      "closeDr": 2651636,
+      "closeCr": 0
+    },
+    {
+      "code": "6051",
+      "name": "Social Security Expense",
+      "openDr": 8991967.8,
+      "openCr": 0,
+      "movDr": 120978,
+      "movCr": 0,
+      "closeDr": 9112945.8,
+      "closeCr": 0
+    },
+    {
+      "code": "6052",
+      "name": "Maintenance Equipment",
+      "openDr": 1069000,
+      "openCr": 0,
+      "movDr": 250000,
+      "movCr": 0,
+      "closeDr": 1319000,
+      "closeCr": 0
+    },
+    {
+      "code": "6053",
+      "name": "Internet expenses",
+      "openDr": 2852000,
+      "openCr": 0,
+      "movDr": 533000,
+      "movCr": 0,
+      "closeDr": 3385000,
+      "closeCr": 0
+    },
+    {
+      "code": "6054",
+      "name": "Software license",
+      "openDr": 930681.2,
+      "openCr": 0,
+      "movDr": 924920,
+      "movCr": 0,
+      "closeDr": 1855601.2,
+      "closeCr": 0
+    },
+    {
+      "code": "6060",
+      "name": "Fuel & Gas",
+      "openDr": 12525250,
+      "openCr": 0,
+      "movDr": 1425000,
+      "movCr": 0,
+      "closeDr": 13950250,
+      "closeCr": 0
+    },
+    {
+      "code": "6070",
+      "name": "Free item",
+      "openDr": 29765726.4,
+      "openCr": 0,
+      "movDr": 8306910,
+      "movCr": 0,
+      "closeDr": 38072636.4,
+      "closeCr": 0
+    },
+    {
+      "code": "6080",
+      "name": "Damage Items",
+      "openDr": 88274220.396,
+      "openCr": 0,
+      "movDr": 13185207.959,
+      "movCr": 0,
+      "closeDr": 101459428.355,
+      "closeCr": 0
+    },
+    {
+      "code": "6100",
+      "name": "Purchase of Equipments",
+      "openDr": 311500,
+      "openCr": 0,
+      "movDr": 203000,
+      "movCr": 0,
+      "closeDr": 514500,
+      "closeCr": 0
+    },
+    {
+      "code": "6200",
+      "name": "Bank Fees",
+      "openDr": 81980532.86,
+      "openCr": 0,
+      "movDr": 30703506.93,
+      "movCr": 0,
+      "closeDr": 112684039.79,
+      "closeCr": 0
+    },
+    {
+      "code": "6201",
+      "name": "Foreign Exchange Loss",
+      "openDr": 10184115.846,
+      "openCr": 0,
+      "movDr": 14152.985,
+      "movCr": 50,
+      "closeDr": 10198218.831,
+      "closeCr": 0
+    },
+    {
+      "code": "6202",
+      "name": "Cash Difference Loss",
+      "openDr": 76433.535,
+      "openCr": 0,
+      "movDr": 48400,
+      "movCr": 0,
+      "closeDr": 124833.535,
+      "closeCr": 0
+    },
+    {
+      "code": "6203",
+      "name": "Cash Discount Loss",
+      "openDr": 1565,
+      "openCr": 0,
+      "movDr": 1830,
+      "movCr": 0,
+      "closeDr": 3395,
+      "closeCr": 0
+    },
+    {
+      "code": "6205",
+      "name": "Sales Expenses",
+      "openDr": 131075,
+      "openCr": 0,
+      "movDr": 15000,
+      "movCr": 0,
+      "closeDr": 146075,
+      "closeCr": 0
+    },
+    {
+      "code": "6206",
+      "name": "Donations",
+      "openDr": 150000000,
+      "openCr": 0,
+      "movDr": 30000000,
+      "movCr": 0,
+      "closeDr": 180000000,
+      "closeCr": 0
+    },
+    {
+      "code": "6207",
+      "name": "Hospitality",
+      "openDr": 6375567.2,
+      "openCr": 0,
+      "movDr": 1961816.8,
+      "movCr": 0,
+      "closeDr": 8337384,
+      "closeCr": 0
+    },
+    {
+      "code": "6208",
+      "name": "Custom Clearance",
+      "openDr": 526992,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 526992,
+      "closeCr": 0
+    },
+    {
+      "code": "6210",
+      "name": "Sales Commission",
+      "openDr": 85144500,
+      "openCr": 0,
+      "movDr": 17533500,
+      "movCr": 0,
+      "closeDr": 102678000,
+      "closeCr": 0
+    },
+    {
+      "code": "6211",
+      "name": "Accounting Services",
+      "openDr": 5100000,
+      "openCr": 0,
+      "movDr": 0,
+      "movCr": 0,
+      "closeDr": 5100000,
+      "closeCr": 0
+    },
+    {
+      "code": "6212",
+      "name": "Administrative Expenses",
+      "openDr": 11243766,
+      "openCr": 0,
+      "movDr": 125000,
+      "movCr": 0,
+      "closeDr": 11368766,
+      "closeCr": 0
+    },
+    {
+      "code": "6214",
+      "name": "Cleaning and kitchen materials",
+      "openDr": 4207250,
+      "openCr": 0,
+      "movDr": 1028000,
+      "movCr": 0,
+      "closeDr": 5235250,
+      "closeCr": 0
+    },
+    {
+      "code": "6215",
+      "name": "Exhibitions and Training",
+      "openDr": 0,
+      "openCr": 0,
+      "movDr": 6908000,
+      "movCr": 0,
+      "closeDr": 6908000,
+      "closeCr": 0
+    },
+    {
+      "code": "6216",
+      "name": "Other Service Expenses",
+      "openDr": 1489459.8,
+      "openCr": 0,
+      "movDr": 390520,
+      "movCr": 0,
+      "closeDr": 1879979.8,
+      "closeCr": 0
+    },
+    {
+      "code": "6218",
+      "name": "Travel and Trips",
+      "openDr": 585000,
+      "openCr": 0,
+      "movDr": 10630500,
+      "movCr": 0,
+      "closeDr": 11215500,
+      "closeCr": 0
+    },
+    {
+      "code": "6301",
+      "name": "Vehicles - Depreciation",
+      "openDr": 9793346.528,
+      "openCr": 0,
+      "movDr": 1958669.305,
+      "movCr": 0,
+      "closeDr": 11752015.833,
+      "closeCr": 0
+    },
+    {
+      "code": "6302",
+      "name": "Equipment's - Depreciation",
+      "openDr": 6483152.954,
+      "openCr": 0,
+      "movDr": 1296186.237,
+      "movCr": 0,
+      "closeDr": 7779339.191,
+      "closeCr": 0
+    },
+    {
+      "code": "6304",
+      "name": "Computers & Electronics - Depreciation",
+      "openDr": 3672749.614,
+      "openCr": 0,
+      "movDr": 757921.922,
+      "movCr": 0,
+      "closeDr": 4430671.536,
+      "closeCr": 0
+    },
+    {
+      "code": "6305",
+      "name": "Furniture & Fixtures - Depreciation",
+      "openDr": 319255.777,
+      "openCr": 0,
+      "movDr": 83833.334,
+      "movCr": 0,
+      "closeDr": 403089.111,
+      "closeCr": 0
+    },
+    {
+      "code": "6306",
+      "name": "Buildings-Depreciation",
+      "openDr": 127040080.566,
+      "openCr": 0,
+      "movDr": 25408016.113,
+      "movCr": 0,
+      "closeDr": 152448096.679,
+      "closeCr": 0
+    },
+    {
+      "code": "",
+      "name": "الإجمالي",
+      "openDr": 77369283270.529,
+      "openCr": 77369283270.529,
+      "movDr": 63122678349.423,
+      "movCr": 63122678349.423,
+      "closeDr": 80262670789.239,
+      "closeCr": 80262670789.239
+    }
+  ],
+  "cashflow": {
+    "صافي الربح": 1744631701.641,
+    "الإهلاك والاستهلاك": 29504626.911
+  }
+}
