@@ -347,8 +347,8 @@ footer{
   <div class="footer-contact">
     <h3>المدير المالي</h3>
     <div class="fc-row"><span class="fc-icon">👤</span><strong>أكرم الأحبابي</strong></div>
-    <div class="fc-row"><span class="fc-icon">📞</span><span id="footer-phone">+964 770 000 0000</span></div>
-    <div class="fc-row"><span class="fc-icon">✉️</span><span id="footer-email">akram@wahajalmassa.com</span></div>
+    <div class="fc-row"><span class="fc-icon">📞</span><span id="footer-phone">07812071698</span></div>
+    <div class="fc-row"><span class="fc-icon">✉️</span><span id="footer-email">a.mahdi@wahajalmassa.com</span></div>
   </div>
 </footer>
 
@@ -390,8 +390,9 @@ const FALLBACK = {
     "إجمالي الأصول":59450437236.098,"الأصول المتداولة":55478560917.598,
     "الحسابات البنكية والنقدية":4980444948.16,"المدينين":19152780833.88,
     "أصول متداولة أخرى":31327718803.558,"المصاريف المدفوعة مقدماً":17616332,
-    "الأصول غير المتداولة":3971876318.5,"إجمالي الالتزامات":5258255091.829,
-    "الالتزامات الجارية":2840759224.739,"الدائنون":2417495867.09,
+    "الأصول غير المتداولة":3971876318.5,
+    "إجمالي الالتزامات":5258255091.829,"الالتزامات الجارية":5258255091.829,
+    "الدائنون":2417495867.09,
     "رأس المال":54192182144.269,"أرباح غير مخصصة":7750757989.091,
     "الأرباح المحتجزة":46441424155.178
   },
@@ -410,11 +411,11 @@ const FALLBACK = {
   ],
   cf:{
     "صافي الربح":2295448819.249,"الإهلاك والاستهلاك":29488710.265,
-    "التغير في المدينين":-3991241985.38,"التغير في المخزون":1557969181.23,
-    "التغير في الدائنون":1535215760.69,"التغير في الالتزامات الجارية":220000000,
-    "شراء أصول ثابتة":-181879440,"مشاريع رأس المال":-181879440,
+    "التغير في المدينين":-3988385986,"التغير في المخزون":1557970181,
+    "التغير في الدائنون":1535215761,"التغير في الالتزامات الجارية":35687500,
+    "شراء أصول ثابتة":0,"مشاريع رأس المال":-181879440,
     "قروض جديدة":0,"سداد قروض":0,"توزيعات أرباح":0,
-    "الرصيد الافتتاحي للنقد":3960445528.16,"الرصيد الختامي للنقد":5502862710.16
+    "الرصيد الافتتاحي للنقد":3528562003,"الرصيد الختامي للنقد":4980444948
   }
 };
 
@@ -663,7 +664,30 @@ function applyFiles(){
       try{
         const r=rows(pending.s);
         const per=getPeriod(r); if(per) D.sp=per;
-        Object.keys(FALLBACK.s).forEach(k=>{ const v=findV(r,k); if(v!==null) D.s[k]=v; });
+        // قراءة مرنة بأسماء بديلة حسب البنية الفعلية للملخص
+        const sAliases={
+          'الأرباح النقدية':    ['الأرباح النقدية','أرباح نقدية'],
+          'المبلغ المُنفَق':    ['المبلغ المُنفَق','المبلغ المنفق'],
+          'الفائض النقدي':      ['الفائض النقدي'],
+          'رصيد الإقفال البنكي':['رصيد الإقفال البنكي','رصيد الإقفال'],
+          'الدخل':              ['الدخل'],
+          'تكاليف الإيرادات':   ['تكاليف الإيرادات','تكاليف'],
+          'إجمالي الربح':       ['إجمالي الربح'],
+          'النفقات':            ['النفقات'],
+          'صافي الربح':         ['صافي الربح'],
+          'المدينين':           ['المدينين'],
+          'الدائنون':           ['الدائنون'],
+          'صافي الأصول':        ['صافي الأصول'],
+          'هامش الربح الإجمالي':['إجمالي هامش الربح','هامش الربح الإجمالي','هامش الربح'],
+          'صافي هامش الربح':    ['صافي هامش الربح'],
+          'العائد على الاستثمار':['العائد على الاستثمار','عائد الاستثمار'],
+          'متوسط أيام المدينين':['متوسط أيام المدينين'],
+          'متوسط أيام الدائنين':['متوسط أيام الدائنين'],
+          'توقعات النقد قصيرة الأجل':['توقعات النقد قصيرة الأجل','توقعات النقد'],
+          'نسبة الأصول المتداولة إلى الالتزامات':['نسبة الأصول المتداولة إلى الالتزامات','نسبة الأصول']
+        };
+        const fxS=(rows,aliases)=>{for(const a of aliases){const v=findV(rows,a);if(v!==null)return v;}return null;};
+        Object.entries(sAliases).forEach(([k,al])=>{const v=fxS(r,al);if(v!==null)D.s[k]=v;});
       }catch(e){console.warn('Summary parse error:',e);}
     }
     setProgress(30,'معالجة الربح والخسارة...');
@@ -685,23 +709,48 @@ function applyFiles(){
       try{
         const r=rows(pending.b);
         const per=getPeriod(r); if(per) D.bp=per;
+        // قراءة مباشرة حسب البنية الفعلية لملف الميزانية
+        // العمود 0 = البيان, العمود 1 = الرصيد
+        const bMap={
+          'إجمالي الأصول':           ['الأصول'],
+          'الأصول المتداولة':         ['الأصول المتداولة'],
+          'الحسابات البنكية والنقدية':['الحسابات البنكية','بنكية والنقدية'],
+          'المدينين':                  ['المدينين'],
+          'المصاريف المدفوعة مقدماً': ['المصاريف المدفوعة','مدفوعة مقدم'],
+          'الأصول غير المتداولة':      ['بالإضافة للأصول غير المتداولة','الأصول غير المتداولة','أصول ثابتة'],
+          'إجمالي الالتزامات':         ['التزامات'],
+          'الالتزامات الجارية':        ['الالتزامات الجارية'],
+          'الدائنون':                  ['الدائنون'],
+          'رأس المال':                 ['رأس المال'],
+          'أرباح غير مخصصة':          ['أرباح غير مخصصة'],
+          'الأرباح المحتجزة':          ['الأرباح المحتجزة'],
+        };
+        // نتتبع أول قيمة صالحة لكل مفتاح (نتجنب الكتابة المكررة)
+        const foundB={};
         for(const row of r){
           if(!row[0]||typeof row[0]!=='string') continue;
           const lbl=row[0].trim();
-          // حاول العمود الثاني أولاً ثم الثالث
           let val=parseFloat(row[1]);
-          if(isNaN(val)) val=parseFloat(row[2]);
           if(isNaN(val)) continue;
-          Object.keys(FALLBACK.b).forEach(k=>{
-            if(lbl.includes(k.substring(0,5))) D.b[k]=val;
+          Object.entries(bMap).forEach(([k,aliases])=>{
+            if(!foundB[k] && aliases.some(a=>lbl.includes(a))){
+              D.b[k]=val; foundB[k]=true;
+            }
           });
         }
-        // احسب أصول متداولة أخرى
+        // أصول متداولة أخرى = المتداولة - بنك - مدينون - مقدمات
         D.b['أصول متداولة أخرى'] =
           (D.b['الأصول المتداولة']||0)
           - (D.b['الحسابات البنكية والنقدية']||0)
           - (D.b['المدينين']||0)
           - (D.b['المصاريف المدفوعة مقدماً']||0);
+        // التحقق: الأصول = الالتزامات + رأس المال
+        console.log('Balance:', {
+          assets: D.b['إجمالي الأصول'],
+          liab:   D.b['إجمالي الالتزامات'],
+          equity: D.b['رأس المال'],
+          check:  Math.abs(D.b['إجمالي الأصول']-(D.b['إجمالي الالتزامات']||0)-(D.b['رأس المال']||0)) < 1000
+        });
       }catch(e){console.warn('Balance parse error:',e);}
     }
     setProgress(65,'معالجة ميزان المراجعة...');
@@ -713,13 +762,19 @@ function applyFiles(){
         const per=getPeriod(r); if(per) D.tp=per;
         // ابحث عن سطر الرأس
         let hi=-1;
+        // البحث عن صف الرأس — يدعم العربية والإنجليزية
         for(let i=0;i<r.length;i++){
-          if(r[i]&&r[i].some(c=>c&&String(c).includes('اسم الحساب'))){hi=i;break;}
+          const row=r[i]; if(!row) continue;
+          const joined=row.map(c=>String(c||'')).join('|').toLowerCase();
+          if(joined.includes('اسم الحساب')||joined.includes('account name')||
+             joined.includes('account description')||joined.includes('description')){
+            hi=i; break;
+          }
         }
-        // إذا لم يجد "اسم الحساب" جرّب بحثاً أوسع
+        // fallback: أول صف بـ 6+ خلايا غير فارغة
         if(hi<0){
           for(let i=0;i<r.length;i++){
-            if(r[i]&&r[i].filter(c=>c!==null).length>=6){hi=i;break;}
+            if(r[i]&&r[i].filter(c=>c!==null&&c!=='').length>=6){hi=i;break;}
           }
         }
         if(hi>=0){
@@ -811,7 +866,11 @@ function resetDefault(){
 //  RENDER SUMMARY
 // ═══════════════════════════════════════════════════════════
 function rS(){
-  const s=D.s, gm=s['هامش الربح الإجمالي'], nm=s['صافي هامش الربح'], roi=s['العائد على الاستثمار'];
+  const s=D.s;
+  // هوامش الربح: من الملخص مباشرة أو محتسبة من PNL
+  const gm  = s['هامش الربح الإجمالي']  || (D.p['إجمالي الربح']&&D.p['الإيرادات'] ? D.p['إجمالي الربح']/D.p['الإيرادات']*100 : 0);
+  const nm  = s['صافي هامش الربح']       || (D.p['صافي الربح']&&D.p['الإيرادات']   ? D.p['صافي الربح']/D.p['الإيرادات']*100   : 0);
+  const roi = s['العائد على الاستثمار']   || 0;
   document.getElementById('pg-s').innerHTML=`
   <div class="kpis">
     <div class="kpi"><div class="kpi-lbl">صافي الربح الشهري</div><div class="kpi-val vg">${fD(s['صافي الربح'])}</div><div class="kpi-sub">${D.sp}</div></div>
@@ -867,10 +926,11 @@ function rS(){
   </div>`;
   setTimeout(()=>{
     dc('cDonut');const ctx=document.getElementById('cDonut');if(!ctx)return;
+    const donutGP   = s['إجمالي الربح']     || D.p['إجمالي الربح']   || 0;
+    const donutCost = s['تكاليف الإيرادات'] || D.p['تكاليف الإيرادات'] || 0;
     CH['cDonut']=new Chart(ctx,{type:'doughnut',
       data:{labels:['إجمالي الربح','التكاليف'],
-        datasets:[{data:[s['إجمالي الربح'],s['تكاليف الإيرادات']],
-          backgroundColor:['var(--green)' ,'var(--red)'],borderWidth:3,borderColor:'var(--surface)'}]},
+        datasets:[{data:[donutGP,donutCost],backgroundColor:['#0d7a52','#c0392b'],borderWidth:4,borderColor:tc('surface')}]},
       options:{responsive:true,maintainAspectRatio:false,cutout:'65%',
         plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.raw)+' د.ع'}}}}});
   },80);
@@ -1005,12 +1065,12 @@ function rB(){
     const c1=document.getElementById('cAss'),c2=document.getElementById('cEq');if(!c1||!c2)return;
     CH['cAss']=new Chart(c1,{type:'doughnut',data:{labels:['بنك/نقد','مدينون','أخرى','ثابتة'],
       datasets:[{data:[b['الحسابات البنكية والنقدية'],b['المدينين'],b['أصول متداولة أخرى']||0,b['الأصول غير المتداولة']],
-        backgroundColor:['#1a5fa8','#0d7a52','#c9960c','#7c5cbf'],borderWidth:3,borderColor:'var(--surface)'}]},
+        backgroundColor:['#1a5fa8','#0d7a52','#c9960c','#7c5cbf'],borderWidth:3,borderColor:tc('surface')}]},
       options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
         plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.raw/1e9).toFixed(3)+' مليار'}}}}});
     CH['cEq']=new Chart(c2,{type:'doughnut',data:{labels:['الالتزامات','رأس المال'],
       datasets:[{data:[b['إجمالي الالتزامات'],b['رأس المال']],
-        backgroundColor:['#c0392b','#0d7a52'],borderWidth:3,borderColor:'var(--surface)'}]},
+        backgroundColor:['#c0392b','#0d7a52'],borderWidth:3,borderColor:tc('surface')}]},
       options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
         plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.raw/1e9).toFixed(3)+' مليار'}}}}});
   },80);
@@ -1079,32 +1139,106 @@ function rT(){
 function rC(){
   const c=D.cf;
 
-  // ── احتياطي ذكي: اشتق من التقارير الأخرى إذا كانت التدفقات فارغة ──
+  // ══ احتساب التغيرات في رأس المال العامل من ميزان المراجعة تلقائياً ══
+  function trialBal(codes, isOpen, isDr){
+    if(!D.tr || D.tr.length===0) return 0;
+    let total=0;
+    codes.forEach(code=>{
+      const row=D.tr.find(r=>String(r.code).trim()===String(code));
+      if(!row) return;
+      const dr = isOpen ? (row.openDr||0) : (row.closeDr||0);
+      const cr = isOpen ? (row.openCr||0) : (row.closeCr||0);
+      total += isDr ? (dr-cr) : (cr-dr);
+    });
+    return total;
+  }
+
+  // المدينون (1400,1401,1402)
+  if(!c['التغير في المدينين']){
+    const recOpen  = trialBal(['1400','1401','1402'], true,  true);
+    const recClose = trialBal(['1400','1401','1402'], false, true);
+    c['التغير في المدينين'] = -(recClose - recOpen); // زيادة = استخدام نقدي
+  }
+
+  // المخزون (1200)
+  if(!c['التغير في المخزون']){
+    const invOpen  = trialBal(['1200'], true,  true);
+    const invClose = trialBal(['1200'], false, true);
+    c['التغير في المخزون'] = -(invClose - invOpen);
+  }
+
+  // الدائنون (2200)
+  if(!c['التغير في الدائنون']){
+    const payOpen  = trialBal(['2200'], true,  false);
+    const payClose = trialBal(['2200'], false, false);
+    c['التغير في الدائنون'] = payClose - payOpen;
+  }
+
+  // الالتزامات الجارية الأخرى (2103,2108,2110,2111,2112,2114)
+  if(!c['التغير في الالتزامات الجارية']){
+    const liabCodes=['2103','2108','2110','2111','2112','2114'];
+    const liabOpen  = trialBal(liabCodes, true,  false);
+    const liabClose = trialBal(liabCodes, false, false);
+    c['التغير في الالتزامات الجارية'] = liabClose - liabOpen;
+  }
+
+  // مشاريع رأس المال من ميزان المراجعة (1214)
+  if(!c['مشاريع رأس المال']){
+    const projOpen  = trialBal(['1214'], true,  true);
+    const projClose = trialBal(['1214'], false, true);
+    c['مشاريع رأس المال'] = -(projClose - projOpen);
+  }
+
+  // الأرصدة النقدية من البنوك في ميزان المراجعة
+  const cashCodes=['1300','1302','1303','1305','1306','1307','1308','1309',
+                   '1310','1311','1312','1313','1314','1315','1316','1317','1318','1319'];
+  if(!c['الرصيد الختامي للنقد']){
+    c['الرصيد الختامي للنقد'] = trialBal(cashCodes, false, true)
+      || D.b['الحسابات البنكية والنقدية'] || D.s['رصيد الإقفال البنكي'] || 0;
+  }
+  if(!c['الرصيد الافتتاحي للنقد']){
+    c['الرصيد الافتتاحي للنقد'] = trialBal(cashCodes, true, true) || 0;
+  }
+
+  // ── قيم أساسية: احتياطي من التقارير الأخرى ──
   const netProfit = c['صافي الربح'] || D.p['صافي الربح'] || 0;
   const depr      = c['الإهلاك والاستهلاك'] || D.p['إهلاك'] || 0;
-  const closeBal  = c['الرصيد الختامي للنقد'] || D.b['الحسابات البنكية والنقدية'] || D.s['رصيد الإقفال البنكي'] || 0;
+  const closeBal  = c['الرصيد الختامي للنقد'] || 0;
   const openBal   = c['الرصيد الافتتاحي للنقد'] || 0;
 
-  // أنشطة التشغيل
-  const opAdj    = depr+(c['التغير في المدينين']||0)+(c['التغير في المخزون']||0)+(c['التغير في الدائنون']||0)+(c['التغير في الالتزامات الجارية']||0);
-  const opTotal  = netProfit+opAdj;
-  // أنشطة الاستثمار
-  const invTotal = (c['شراء أصول ثابتة']||0)+(c['مشاريع رأس المال']||0);
-  // أنشطة التمويل
-  const finTotal = (c['قروض جديدة']||0)-(c['سداد قروض']||0)-(c['توزيعات أرباح']||0);
-  // صافي التدفق
-  const netFlow  = opTotal+invTotal+finTotal;
-
-  // استخدم القيم المحلوقة في باقي الدالة
   c['صافي الربح']           = netProfit;
   c['الإهلاك والاستهلاك']   = depr;
   c['الرصيد الختامي للنقد'] = closeBal;
 
+  // ── أولوية البيانات: الملف مباشرة ثم المحتسب من ميزان المراجعة ──
+  // أنشطة التشغيل
+  const opAdj    = depr+(c['التغير في المدينين']||0)+(c['التغير في المخزون']||0)+(c['التغير في الدائنون']||0)+(c['التغير في الالتزامات الجارية']||0);
+  const opCalc   = netProfit+opAdj;
+  const opTotal  = c['صافي التدفق التشغيلي'] || opCalc;
+
+  // أنشطة الاستثمار
+  const invCalc  = (c['شراء أصول ثابتة']||0)+(c['مشاريع رأس المال']||0);
+  const invTotal = c['صافي التدفق الاستثماري'] || invCalc;
+
+  // أنشطة التمويل
+  const finCalc  = (c['قروض جديدة']||0)-(c['سداد قروض']||0)-(c['توزيعات أرباح']||0);
+  const finTotal = c['صافي التدفق التمويلي'] || finCalc;
+
+  // غير مصنف (إن وجد)
+  const unclass  = c['التدفقات غير المصنفة'] || 0;
+
+  // صافي التدفق
+  const netFlow  = c['صافي الزيادة في النقد'] || (opTotal+invTotal+finTotal+unclass);
+
+  // تفاصيل تشغيلية من الملف
+  const custPay  = c['المدفوعات من العملاء'] || 0;
+  const suppPay  = c['المدفوعات للموردين']   || 0;
+
   document.getElementById('pg-c').innerHTML=`
   <div class="kpis">
-    <div class="kpi"><div class="kpi-lbl">التدفق التشغيلي</div><div class="kpi-val ${opTotal>=0?'vg':'vr'}">${fD(opTotal)}</div><div class="kpi-sub">${D.cp}</div></div>
+    <div class="kpi"><div class="kpi-lbl">التدفق التشغيلي</div><div class="kpi-val ${opTotal>=0?'vg':'vr'}">${fD(opTotal)}</div><div class="kpi-sub">${D.cp||''}</div></div>
     <div class="kpi"><div class="kpi-lbl">التدفق الاستثماري</div><div class="kpi-val ${invTotal>=0?'vg':'vr'}">${fD(invTotal)}</div></div>
-    <div class="kpi"><div class="kpi-lbl">التدفق التمويلي</div><div class="kpi-val ${finTotal>=0?'vg':'vr'}">${fD(finTotal)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">التدفق التمويلي</div><div class="kpi-val ${finTotal>=0?'vg':'vr'}">${fD(finTotal||0)}</div></div>
     <div class="kpi"><div class="kpi-lbl">صافي التدفق النقدي</div><div class="kpi-val ${netFlow>=0?'vg':'vr'}">${fD(netFlow)}</div></div>
     <div class="kpi"><div class="kpi-lbl">الرصيد الافتتاحي للنقد</div><div class="kpi-val">${fD(openBal)}</div></div>
     <div class="kpi"><div class="kpi-lbl">الرصيد الختامي للنقد</div><div class="kpi-val va">${fD(closeBal)}</div></div>
