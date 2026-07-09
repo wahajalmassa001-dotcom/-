@@ -346,8 +346,10 @@ footer{
   </div>
   <div class="footer-contact">
     <h3>المدير المالي</h3>
-    <div class="fc-row"><span class="fc-icon">👤</span><strong>أكرم الأحبابي</strong></div>
-    <div class="fc-row"><span class="fc-icon">📞</span><span id="footer-phone">07812071698</span></div>
+    <div class="fc-row">👤 <strong>أكرم الأحبابي</strong></div>
+    <div class="fc-row">📞 <a href="tel:07812071698" style="color:var(--text2);text-decoration:none">07812071698</a></div>
+    <div class="fc-row">✉️ <a href="mailto:a.mahdi@wahajalmassa.com" style="color:var(--text2);text-decoration:none">a.mahdi@wahajalmassa.com</a></div>
+  </div>
     <div class="fc-row"><span class="fc-icon">✉️</span><span id="footer-email">a.mahdi@wahajalmassa.com</span></div>
   </div>
 </footer>
@@ -424,6 +426,52 @@ let D = JSON.parse(JSON.stringify(FALLBACK));
 let pending = {s:null,p:null,b:null,t:null,c:null};
 const CH = {};
 let activeKPI = null;
+
+// قاموس ترجمة أسماء الحسابات إنجليزي → عربي
+const ACCT_NAMES = {
+  '1100':'الأصول المتداولة','1200':'تقييم المخزون',
+  '1201':'مخزون مؤقت (مستلم)','1202':'مخزون مؤقت (مُسلَّم)',
+  '1203':'ضريبة مدفوعة','1205':'حساب انتظار',
+  '1207':'مدفوعات معلقة','1208':'تحويل سيولة - تحت التحصيل',
+  '1209':'تحويلات داخلية','1210':'أجهزة حاسوب وإلكترونيات',
+  '1211':'معدات وتجهيزات','1212':'مركبات',
+  '1213':'أثاث ومفروشات','1214':'مشاريع تحت التنفيذ',
+  '1215':'تعديلات المخزون','1300':'صندوق وهج الماسة (د.ع)',
+  '1302':'بنك آسيا - وهج الماسة','1303':'بنك الاتحاد - وهج الماسة',
+  '1305':'بنك الاقتصاد - وهج الماسة','1306':'بنك الأهلي - وهج الماسة',
+  '1307':'بنك التنمية USD - وهج الماسة','1308':'بنك الرشيد - وهج الماسة',
+  '1309':'بنك بغداد - وهج الماسة','1310':'صندوق USD - وهج الماسة',
+  '1311':'بنك الزوراء - وهج الماسة','1312':'بنك بغداد (د.ع)',
+  '1313':'بنك الأهلي USD','1314':'بنك الاتحاد USD',
+  '1315':'بنك كردستان','1316':'صندوق إيران (ريال)',
+  '1317':'أوراق نقدية معلقة','1318':'تسوية بنكية',
+  '1319':'بنك متنوع','1400':'حسابات القبض (مدينون)',
+  '1401':'دفعات مقدمة للموردين','1402':'إيجار مدفوع مقدماً',
+  '1403':'مصاريف مدفوعة مقدماً','1500':'أصول ثابتة',
+  '2100':'حسابات الدفع (دائنون)','2103':'ضريبة مستحقة',
+  '2108':'تسويات مستحقة','2110':'رواتب مستحقة',
+  '2111':'مصاريف مستحقة','2112':'قروض قصيرة الأجل',
+  '2114':'التزامات متنوعة','2200':'حسابات الدائنين',
+  '3000':'رأس المال','3300':'رأس المال المدفوع',
+  '4000':'إيرادات المبيعات','4001':'أرباح صرف العملات',
+  '4002':'إيرادات أخرى','5000':'تكلفة البضاعة المباعة',
+  '6010':'رواتب وأجور','6020':'مكافآت',
+  '6030':'مكافآت إضافية','6040':'إيجار',
+  '6042':'إيجار مكاتب','6044':'ضرائب ورسوم',
+  '6060':'وقود وغاز','6070':'صيانة',
+  '6080':'بضائع تالفة','6090':'مصاريف متنوعة',
+  '6200':'عمولات بنكية','6206':'تبرعات',
+  '6210':'عمولات مبيعات','6300':'إهلاك',
+  '6306':'إهلاك المباني','6310':'إهلاك المعدات',
+};
+function getArabicName(code, engName){
+  const c = String(code).trim();
+  if(ACCT_NAMES[c]) return ACCT_NAMES[c];
+  // استخرج الاسم العربي من الاسم الإنجليزي إذا كان يحتوي على /
+  if(engName && engName.includes('/')) return engName.split('/').slice(1).join('/').trim();
+  return '';
+}
+
 let dataSource = 'fallback'; // 'remote' | 'uploaded' | 'fallback'
 
 // ════════════════════════════════════════════════════════
@@ -665,29 +713,40 @@ function applyFiles(){
         const r=rows(pending.s);
         const per=getPeriod(r); if(per) D.sp=per;
         // قراءة مرنة بأسماء بديلة حسب البنية الفعلية للملخص
-        const sAliases={
-          'الأرباح النقدية':    ['الأرباح النقدية','أرباح نقدية'],
-          'المبلغ المُنفَق':    ['المبلغ المُنفَق','المبلغ المنفق'],
-          'الفائض النقدي':      ['الفائض النقدي'],
-          'رصيد الإقفال البنكي':['رصيد الإقفال البنكي','رصيد الإقفال'],
-          'الدخل':              ['الدخل'],
-          'تكاليف الإيرادات':   ['تكاليف الإيرادات','تكاليف'],
-          'إجمالي الربح':       ['إجمالي الربح'],
-          'النفقات':            ['النفقات'],
-          'صافي الربح':         ['صافي الربح'],
-          'المدينين':           ['المدينين'],
-          'الدائنون':           ['الدائنون'],
-          'صافي الأصول':        ['صافي الأصول'],
-          'هامش الربح الإجمالي':['إجمالي هامش الربح','هامش الربح الإجمالي','هامش الربح'],
-          'صافي هامش الربح':    ['صافي هامش الربح'],
-          'العائد على الاستثمار':['العائد على الاستثمار','عائد الاستثمار'],
-          'متوسط أيام المدينين':['متوسط أيام المدينين'],
-          'متوسط أيام الدائنين':['متوسط أيام الدائنين'],
-          'توقعات النقد قصيرة الأجل':['توقعات النقد قصيرة الأجل','توقعات النقد'],
-          'نسبة الأصول المتداولة إلى الالتزامات':['نسبة الأصول المتداولة إلى الالتزامات','نسبة الأصول']
+        // قراءة مباشرة بالمطابقة الجزئية لكل صف
+        // البنية: col0=البيان، col1=الرصيد (نص أو رقم)
+        const sKeyMap={
+          'الأرباح النقدية':                           ['الأرباح النقدية'],
+          'المبلغ المُنفَق':                           ['المبلغ المُنفَق','المنفق'],
+          'الفائض النقدي':                             ['الفائض النقدي'],
+          'رصيد الإقفال البنكي':                       ['رصيد الإقفال البنكي'],
+          'الدخل':                                     ['الدخل'],
+          'تكاليف الإيرادات':                          ['تكاليف الإيرادات'],
+          'إجمالي الربح':                              ['إجمالي الربح'],
+          'النفقات':                                   ['النفقات'],
+          'صافي الربح':                                ['صافي الربح'],
+          'المدينين':                                  ['المدينين'],
+          'الدائنون':                                  ['الدائنون'],
+          'صافي الأصول':                               ['صافي الأصول'],
+          'هامش الربح الإجمالي':                       ['إجمالي هامش الربح','هامش الربح الإجمالي'],
+          'صافي هامش الربح':                           ['صافي هامش الربح'],
+          'العائد على الاستثمار':                      ['العائد على الاستثمار'],
+          'متوسط أيام المدينين':                       ['متوسط أيام المدينين'],
+          'متوسط أيام الدائنين':                       ['متوسط أيام الدائنين'],
+          'توقعات النقد قصيرة الأجل':                  ['توقعات النقد قصيرة الأجل'],
+          'نسبة الأصول المتداولة إلى الالتزامات':      ['نسبة الأصول المتداولة']
         };
-        const fxS=(rows,aliases)=>{for(const a of aliases){const v=findV(rows,a);if(v!==null)return v;}return null;};
-        Object.entries(sAliases).forEach(([k,al])=>{const v=fxS(r,al);if(v!==null)D.s[k]=v;});
+        for(const row of r){
+          const lbl = row[0] ? String(row[0]).trim() : '';
+          if(!lbl) continue;
+          // col1 قد يكون رقم أو نص
+          let val = parseFloat(row[1]);
+          if(isNaN(val) && row[1]) val = parseFloat(String(row[1]).replace(/,/g,''));
+          if(isNaN(val)) continue;
+          Object.entries(sKeyMap).forEach(([k,aliases])=>{
+            if(aliases.some(a => lbl.includes(a))) D.s[k] = val;
+          });
+        }
       }catch(e){console.warn('Summary parse error:',e);}
     }
     setProgress(30,'معالجة الربح والخسارة...');
@@ -709,47 +768,47 @@ function applyFiles(){
       try{
         const r=rows(pending.b);
         const per=getPeriod(r); if(per) D.bp=per;
-        // قراءة مباشرة حسب البنية الفعلية لملف الميزانية
-        // العمود 0 = البيان, العمود 1 = الرصيد
-        const bMap={
-          'إجمالي الأصول':           ['الأصول'],
-          'الأصول المتداولة':         ['الأصول المتداولة'],
-          'الحسابات البنكية والنقدية':['الحسابات البنكية','بنكية والنقدية'],
-          'المدينين':                  ['المدينين'],
-          'المصاريف المدفوعة مقدماً': ['المصاريف المدفوعة','مدفوعة مقدم'],
-          'الأصول غير المتداولة':      ['بالإضافة للأصول غير المتداولة','الأصول غير المتداولة','أصول ثابتة'],
-          'إجمالي الالتزامات':         ['التزامات'],
-          'الالتزامات الجارية':        ['الالتزامات الجارية'],
-          'الدائنون':                  ['الدائنون'],
-          'رأس المال':                 ['رأس المال'],
-          'أرباح غير مخصصة':          ['أرباح غير مخصصة'],
-          'الأرباح المحتجزة':          ['الأرباح المحتجزة'],
-        };
-        // نتتبع أول قيمة صالحة لكل مفتاح (نتجنب الكتابة المكررة)
+        // قراءة صف بصف — مباشرة حسب البنية الفعلية
+        // R4:'الأصول'=إجمالي الأصول | R5:'الأصول المتداولة'=متداولة | R13:'التزامات'=إجمالي
+        const bRowMap=[
+          {key:'إجمالي الأصول',           match:['الأصول'],              exact:true},
+          {key:'الأصول المتداولة',         match:['الأصول المتداولة'],    exact:false},
+          {key:'الحسابات البنكية والنقدية',match:['الحسابات البنكية'],    exact:false},
+          {key:'المدينين',                  match:['المدينين'],            exact:false},
+          {key:'المصاريف المدفوعة مقدماً', match:['مدفوعة مقدم','المصاريف المدفوعة'],exact:false},
+          {key:'الأصول غير المتداولة',      match:['الأصول غير المتداولة','للأصول غير'],exact:false},
+          {key:'إجمالي الالتزامات',         match:['التزامات'],           exact:true},
+          {key:'الالتزامات الجارية',        match:['الالتزامات الجارية'], exact:false},
+          {key:'الدائنون',                  match:['الدائنون'],           exact:false},
+          {key:'رأس المال',                 match:['رأس المال'],          exact:false},
+          {key:'أرباح غير مخصصة',          match:['أرباح غير مخصصة'],   exact:false},
+          {key:'الأرباح المحتجزة',          match:['الأرباح المحتجزة'],  exact:false},
+        ];
         const foundB={};
         for(const row of r){
-          if(!row[0]||typeof row[0]!=='string') continue;
-          const lbl=row[0].trim();
-          let val=parseFloat(row[1]);
+          const rawLbl = row[0] ? String(row[0]).trim() : '';
+          if(!rawLbl) continue;
+          let val = parseFloat(row[1]);
+          if(isNaN(val) && row[1]) val = parseFloat(String(row[1]).replace(/,/g,''));
           if(isNaN(val)) continue;
-          Object.entries(bMap).forEach(([k,aliases])=>{
-            if(!foundB[k] && aliases.some(a=>lbl.includes(a))){
-              D.b[k]=val; foundB[k]=true;
-            }
-          });
+          for(const {key,match,exact} of bRowMap){
+            if(foundB[key]) continue;
+            const hits = exact
+              ? match.some(m => rawLbl === m || rawLbl === m.trim())
+              : match.some(m => rawLbl.includes(m));
+            if(hits){ D.b[key]=val; foundB[key]=true; }
+          }
         }
-        // أصول متداولة أخرى = المتداولة - بنك - مدينون - مقدمات
+        // أصول متداولة أخرى محتسبة
         D.b['أصول متداولة أخرى'] =
           (D.b['الأصول المتداولة']||0)
-          - (D.b['الحسابات البنكية والنقدية']||0)
-          - (D.b['المدينين']||0)
-          - (D.b['المصاريف المدفوعة مقدماً']||0);
-        // التحقق: الأصول = الالتزامات + رأس المال
-        console.log('Balance:', {
-          assets: D.b['إجمالي الأصول'],
-          liab:   D.b['إجمالي الالتزامات'],
-          equity: D.b['رأس المال'],
-          check:  Math.abs(D.b['إجمالي الأصول']-(D.b['إجمالي الالتزامات']||0)-(D.b['رأس المال']||0)) < 1000
+          -(D.b['الحسابات البنكية والنقدية']||0)
+          -(D.b['المدينين']||0)
+          -(D.b['المصاريف المدفوعة مقدماً']||0);
+        console.log('Balance parsed:',{
+          assets:D.b['إجمالي الأصول'],
+          liab:D.b['إجمالي الالتزامات'],
+          equity:D.b['رأس المال']
         });
       }catch(e){console.warn('Balance parse error:',e);}
     }
@@ -1085,13 +1144,19 @@ function rT(){
   const data=rows.filter(r=>r.name!=='الإجمالي');
   const top8=[...data].filter(r=>r.closeDr>0||r.closeCr>0)
     .sort((a,b)=>(b.closeDr+b.closeCr)-(a.closeDr+a.closeCr)).slice(0,8);
-  const trs=data.map(r=>`<tr>
-    <td>${r.code}</td><td>${r.name}</td>
-    <td>${r.openDr?fmt(r.openDr,true):'—'}</td><td>${r.openCr?fmt(r.openCr,true):'—'}</td>
-    <td>${r.movDr?fmt(r.movDr,true):'—'}</td><td>${r.movCr?fmt(r.movCr,true):'—'}</td>
-    <td class="${r.closeDr?'pos':''}">${r.closeDr?fmt(r.closeDr,true):'—'}</td>
-    <td class="${r.closeCr?'neg':''}">${r.closeCr?fmt(r.closeCr,true):'—'}</td>
-  </tr>`).join('');
+  const trs=data.map(r=>{
+    const arName=getArabicName(r.code,r.name);
+    const nameCell=arName
+      ?`<span style="display:block;font-weight:600;color:var(--text)">${arName}</span><span style="font-size:11px;color:var(--text3)">${r.name}</span>`
+      :r.name;
+    return `<tr>
+      <td>${r.code}</td><td>${nameCell}</td>
+      <td>${r.openDr?fmt(r.openDr,true):'—'}</td><td>${r.openCr?fmt(r.openCr,true):'—'}</td>
+      <td>${r.movDr?fmt(r.movDr,true):'—'}</td><td>${r.movCr?fmt(r.movCr,true):'—'}</td>
+      <td class="${r.closeDr?'pos':''}">${r.closeDr?fmt(r.closeDr,true):'—'}</td>
+      <td class="${r.closeCr?'neg':''}">${r.closeCr?fmt(r.closeCr,true):'—'}</td>
+    </tr>`;
+  }).join('');
   document.getElementById('pg-t').innerHTML=`
   <div class="kpis">
     <div class="kpi"><div class="kpi-lbl">الرصيد الافتتاحي (مدين)</div><div class="kpi-val">${fmt(tot.openDr)}</div></div>
